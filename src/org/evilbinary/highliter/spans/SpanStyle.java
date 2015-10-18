@@ -1,4 +1,4 @@
-package org.evilbinary.highliter;
+package org.evilbinary.highliter.spans;
 
 import java.util.ArrayList;
 import java.util.List;

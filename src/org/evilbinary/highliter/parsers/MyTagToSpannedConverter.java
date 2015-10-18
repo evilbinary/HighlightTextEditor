@@ -1,4 +1,4 @@
-package org.evilbinary.highliter;
+package org.evilbinary.highliter.parsers;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 
 import org.ccil.cowan.tagsoup.Parser;
+import org.evilbinary.highliter.spans.SpanStyle;
 import org.evilbinary.utils.PxAndDp;
 import org.w3c.dom.css.CSSImportRule;
 import org.w3c.dom.css.CSSPrimitiveValue;

@@ -15,6 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package org.evilbinary.highliter;
 
+import org.evilbinary.highliter.parsers.MyTagToSpannedConverter;
 import org.evilbinary.utils.FileUtil;
 
 import android.content.Context;
