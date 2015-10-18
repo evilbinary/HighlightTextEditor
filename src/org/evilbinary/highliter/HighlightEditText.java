@@ -34,8 +34,9 @@ import android.widget.EditText;
 import android.widget.Scroller;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 
-public class HighlightEditText extends EditText implements OnKeyListener, OnGestureListener {
+public class HighlightEditText extends EditText implements Constants, OnKeyListener, OnGestureListener {
 
 	private MyTagToSpannedConverter converter;
 	private SyntaxHighlight maker;
@@ -211,7 +212,7 @@ public class HighlightEditText extends EditText implements OnKeyListener, OnGest
 		mPaintHighlight.setColor(Color.BLACK);
 		mPaintNumbers.setColor(Color.GRAY);
 		mPaintHighlight.setAlpha(48);
-		
+
 		// text size
 		setTextSize(Settings.TEXT_SIZE);
 		mPaintNumbers.setTextSize(Settings.TEXT_SIZE * mScale * 0.85f);
@@ -245,13 +246,40 @@ public class HighlightEditText extends EditText implements OnKeyListener, OnGest
 	@Override
 	public boolean onDown(MotionEvent arg0) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
+	}
+	public void computeScroll() {
+
+		if (mTedScroller != null) {
+			if (mTedScroller.computeScrollOffset()) {
+				scrollTo(mTedScroller.getCurrX(), mTedScroller.getCurrY());
+			}
+		} else {
+			super.computeScroll();
+		}
 	}
 
+	public boolean onTouchEvent(MotionEvent event) {
+
+		super.onTouchEvent(event);
+		if (mGestureDetector != null) {
+			return mGestureDetector.onTouchEvent(event);
+		}
+
+		return true;
+	}
+	
 	@Override
-	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+		if (!Settings.FLING_TO_SCROLL) {
+			return true;
+		}
+
+		if (mTedScroller != null) {
+			mTedScroller.fling(getScrollX(), getScrollY(), -(int) velocityX, -(int) velocityY, 0, mMaxSize.x, 0,
+					mMaxSize.y);
+		}
+		return true;
 	}
 
 	@Override
@@ -263,7 +291,7 @@ public class HighlightEditText extends EditText implements OnKeyListener, OnGest
 	@Override
 	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -275,7 +303,12 @@ public class HighlightEditText extends EditText implements OnKeyListener, OnGest
 	@Override
 	public boolean onSingleTapUp(MotionEvent arg0) {
 		// TODO Auto-generated method stub
-		return false;
+
+		if (isEnabled()) {
+			((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(this,
+					InputMethodManager.SHOW_IMPLICIT);
+		}
+		return true;
 	}
 
 	@Override
