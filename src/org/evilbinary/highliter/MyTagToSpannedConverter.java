@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.HashMap;
 
+import org.ccil.cowan.tagsoup.Parser;
 import org.evilbinary.utils.PxAndDp;
 import org.w3c.dom.css.CSSImportRule;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -29,7 +30,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.CharacterStyle;
+import android.text.style.BulletSpan;
 import android.text.style.ForegroundColorSpan;
 
 import com.steadystate.css.parser.CSSOMParser;
@@ -43,6 +44,15 @@ public class MyTagToSpannedConverter implements ContentHandler {
 
 	private HashMap<String, SpanStyle> mStyles;
 	private Context mContext;
+	private String mSp;
+
+	public static String TAG_TITLE = "title";
+	public static String TAG_BODY = "body";
+	public static String TAG_PRE = "pre";
+	public static String TAG_SPAN = "span";
+	private String mCurTag;
+
+	private String title;
 
 	public MyTagToSpannedConverter(Context context, String source) {
 		mSource = source;
@@ -51,8 +61,11 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		mContext = context;
 		try {
 			mReader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
-//			mReader = XMLReaderFactory.createXMLReader("hotsax.html.sax.SaxParser");
-			
+			mReader.setFeature(Parser.bogonsEmptyFeature, true);
+			mReader.setFeature(Parser.ignorableWhitespaceFeature, true);
+			// mReader =
+			// XMLReaderFactory.createXMLReader("hotsax.html.sax.SaxParser");
+
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,29 +93,30 @@ public class MyTagToSpannedConverter implements ContentHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
-		System.out.println("---->startDocument() is invoked...");
+
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		System.out.println("---->endDocument() is invoked...");
+
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		// System.out.println("-------->startElement() is invoked...");
-		// System.out.println("uri的属性值：" + uri);
-		// System.out.println("localName的属性值：" + localName);
-		// System.out.println("qName的属性值：" + qName);
+		// System.out.println("	uri的属性值：" + uri);
+		// System.out.println("	localName的属性值：" + localName);
+		// System.out.println("	qName的属性值：" + qName);
 		// if (attributes.getLength() > 0) {
-		// System.out.println("element属性值-->" + attributes.getQName(0) + "："
-		// + attributes.getValue(0)); //
+		// System.out.println("	element属性值-->" + attributes.getQName(0) + "：" +
+		// attributes.getValue(0)); //
 		// 根据下标获取属性name和value，也可以直接传递属性name获取属性值：attributes.getValue("id")
 		// }
 		handleStartTag(localName, attributes);
 	}
 
 	private void handleStartTag(String tag, Attributes attributes) {
+		mCurTag = tag;
 		if (tag.equalsIgnoreCase("span")) {
 			if (attributes.getLength() > 0) {
 				String classValue = attributes.getValue("class");
@@ -120,18 +134,19 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		} else if (tag.equalsIgnoreCase("pre")) {
 			if (attributes.getLength() > 0) {
 				String classValue = attributes.getValue("class");
-
 				String name = "pre." + classValue;
-
 				SpanStyle style = mStyles.get(name);
-				System.out.println("======name:" + name + " size:" + style.getSize());
-
-				start(mSpannableStringBuilder, style);
+				// System.out.println("======name:" + name + " size:" +
+				// style.getSize());
+				// start(mSpannableStringBuilder, style);
 			}
 		} else if (tag.equalsIgnoreCase("title")) {
-
+			// start(mSpannableStringBuilder, new BulletSpan());
+		} else if (tag.equalsIgnoreCase("head")) {
+			// start(mSpannableStringBuilder, new BulletSpan());
+		} else if (tag.equalsIgnoreCase(this.TAG_BODY)) {
+			// System.out.println("body start====================");
 		} else if (tag.equalsIgnoreCase("link")) {
-
 			if (attributes.getLength() > 0) {
 				String cssFileName = attributes.getValue("href");
 				System.out.println("pase css file:" + cssFileName);
@@ -173,36 +188,6 @@ public class MyTagToSpannedConverter implements ContentHandler {
 
 							}
 							mStyles.put(cssrule.getSelectorText(), spanStyles);
-
-							// for (int j = 0, n = styles.getLength(); j < n;
-							// j++) {
-							// System.out.println("   " + styles.item(j) + ":"
-							// + styles.getPropertyValue(styles.item(j)));
-							// if ("color".equalsIgnoreCase(styles.item(j))) {
-							// CSSPrimitiveValue val = (CSSPrimitiveValue)
-							// styles.getPropertyCSSValue(styles
-							// .item(j));
-							// org.w3c.dom.css.RGBColor color =
-							// val.getRGBColorValue();
-							// System.out.println("r:" + color.getRed() + " b:"
-							// + color.getBlue() + " g:"
-							// + color.getGreen() + "  ===");
-							//
-							// int c = toColor(val.getRGBColorValue());
-							// System.out.println("	color===:" + c);
-							// mColors.put(cssrule.getSelectorText(), c);
-							// } else if
-							// ("background-color".equalsIgnoreCase(styles.item(j)))
-							// {
-							// CSSPrimitiveValue val = (CSSPrimitiveValue)
-							// styles.getPropertyCSSValue(styles
-							// .item(j));
-							// int c = toColor(val.getRGBColorValue());
-							// System.out.println("	color===:" + c);
-							// mBgColors.put(cssrule.getSelectorText(), c);
-							// }
-							// }
-
 						} else if (rule instanceof CSSImportRule) {
 							CSSImportRule cssrule = (CSSImportRule) rule;
 							System.out.println(cssrule.getHref());
@@ -257,16 +242,23 @@ public class MyTagToSpannedConverter implements ContentHandler {
 			// System.out.println("span end===========================:" + tag);
 			end(mSpannableStringBuilder, SpanStyle.class);
 		} else if (tag.equalsIgnoreCase("pre")) {
-			System.out.println("span end===========================:" + tag);
+			// System.out.println("span end===========================:" + tag);
 			// end(mSpannableStringBuilder, SpanStyle.class);
-		} else if (tag.equalsIgnoreCase("</br>")) {
-//			mSpannableStringBuilder.append("\n");
+		} else if (tag.equalsIgnoreCase("br")) {
+			// System.out.println("span br===========================:" + tag);
+			mSpannableStringBuilder.append(mSp);
+		} else if (tag.equalsIgnoreCase("title")) {
+			// end(mSpannableStringBuilder, BulletSpan.class);
+		} else if (tag.equalsIgnoreCase("head")) {
+			// end(mSpannableStringBuilder, BulletSpan.class);
+		} else if (tag.equalsIgnoreCase(this.TAG_BODY)) {
+			// System.out.println("body end====================");
 		}
 	}
 
 	private static void start(SpannableStringBuilder text, Object mark) {
 		int len = text.length();
-		// System.out.println("start setSpan:" + len + "");
+		// System.out.println("start setSpan:" + len + " text:"+text);
 		text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
 	}
 
@@ -278,10 +270,13 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		// System.out.println(" where:" + where + " len:" + len);
 		if (where != len) {
 			// System.out.println("obj:" + obj);
-
-			SpanStyle spanStyle = (SpanStyle) obj;
-			// System.out.println("obj:" + obj + " span:" + span);
-			spanStyle.applyStyle(text, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			if (kind == SpanStyle.class) {
+				SpanStyle spanStyle = (SpanStyle) obj;
+				// System.out.println("obj:" + obj + " span:" + span);
+				spanStyle.applyStyle(text, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			} else {
+				text.clear();
+			}
 		}
 
 		return;
@@ -307,45 +302,25 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		// System.out.println("uri的属性值：" + uri);
 		// System.out.println("localName的属性值：" + localName);
 		// System.out.println("qName的属性值：" + qName);
-
 		handleEndTag(localName);
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		// System.out.println("------------>characters() is invoked...");
-		// System.out.println("节点元素文本内容：" + new String(ch, start, length));
-
-		StringBuilder sb = new StringBuilder();
-
-		for (int i = 0; i < length; i++) {
-			char c = ch[i + start];
-
-			if (c == ' ' || c == '\n') {
-				char pred;
-				int len = sb.length();
-
-				if (len == 0) {
-					len = mSpannableStringBuilder.length();
-
-					if (len == 0) {
-						pred = '\n';
-					} else {
-						pred = mSpannableStringBuilder.charAt(len - 1);
-					}
-				} else {
-					pred = sb.charAt(len - 1);
-				}
-
-				if (pred != ' ' && pred != '\n') {
-					sb.append(' ');
-				}
-			} else {
-				sb.append(c);
-			}
+		// System.out.println("节点元素文本内容:" + new String(ch, start, length));
+		if (TAG_SPAN.equals(this.mCurTag)) {
+			mSpannableStringBuilder.append(new String(ch, start, length));
+		} else if (TAG_TITLE.equals(this.mCurTag)) {
+			title = new String(ch, start, length);
 		}
+	}
 
-		mSpannableStringBuilder.append(sb);
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Override
@@ -375,7 +350,6 @@ public class MyTagToSpannedConverter implements ContentHandler {
 	@Override
 	public void skippedEntity(String arg0) throws SAXException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

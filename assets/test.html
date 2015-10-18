@@ -6,7 +6,8 @@
 <link rel="stylesheet" type="text/css" href="highlight.css">
 </head>
 <body class="hl">
-<pre class="hl"><span class="hl com">/***************************************************************************</span>
+<pre class="hl">
+<span class="hl com">/***************************************************************************</span>
 <span class="hl com">                          codegenerator.cpp  -  description</span>
 <span class="hl com">                             -------------------</span>
 <span class="hl com">    begin                : Die Jul 9 2002</span>
@@ -125,108 +126,53 @@ CodeGenerator <span class="hl opt">*</span> CodeGenerator<span class="hl opt">::
 <span class="hl opt">}</span>
 
 
-string CodeGenerator<span class="hl opt">::</span><span class="hl kwd">readUserStyleDef</span><span class="hl opt">()</span>
+CodeGenerator<span class="hl opt">::</span><span class="hl kwd">CodeGenerator</span> <span class="hl opt">(</span> highlight<span class="hl opt">::</span>OutputType type <span class="hl opt">)</span>
+    <span class="hl opt">:</span><span class="hl kwd">currentSyntax</span><span class="hl opt">(</span>NULL<span class="hl opt">),</span>
+     <span class="hl kwd">in</span> <span class="hl opt">(</span> NULL <span class="hl opt">),</span>
+     <span class="hl kwd">out</span> <span class="hl opt">(</span> NULL <span class="hl opt">),</span>
+     <span class="hl kwd">encoding</span> <span class="hl opt">(</span> <span class="hl str">&quot;none&quot;</span> <span class="hl opt">),</span>
+     <span class="hl kwd">docTitle</span> <span class="hl opt">(</span> <span class="hl str">&quot;Source file&quot;</span> <span class="hl opt">),</span>
+     <span class="hl kwd">maskWs</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">excludeWs</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">fragmentOutput</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">showLineNumbers</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">lineNumberFillZeroes</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">printNewLines</span><span class="hl opt">(</span><span class="hl kwa">true</span><span class="hl opt">),</span>
+     <span class="hl kwd">baseFontSize</span><span class="hl opt">(</span><span class="hl str">&quot;10&quot;</span><span class="hl opt">),</span>
+     <span class="hl kwd">lineNumber</span> <span class="hl opt">(</span> <span class="hl num">0</span> <span class="hl opt">),</span>
+     <span class="hl kwd">lineNumberOffset</span> <span class="hl opt">(</span> <span class="hl num">0</span> <span class="hl opt">),</span>
+     <span class="hl kwd">includeStyleDef</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">lineIndex</span> <span class="hl opt">(</span> <span class="hl num">0</span> <span class="hl opt">),</span>
+     <span class="hl kwd">lineNumberWidth</span> <span class="hl opt">(</span> <span class="hl num">5</span> <span class="hl opt">),</span>
+     <span class="hl kwd">maxLineCnt</span> <span class="hl opt">(</span> UINT_MAX <span class="hl opt">),</span>
+     <span class="hl kwd">terminatingChar</span> <span class="hl opt">(</span> <span class="hl str">'\0'</span> <span class="hl opt">),</span>
+     <span class="hl kwd">formatter</span> <span class="hl opt">(</span> NULL <span class="hl opt">),</span>
+     <span class="hl kwd">formattingEnabled</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">formattingPossible</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">validateInput</span> <span class="hl opt">(</span> <span class="hl kwa">false</span> <span class="hl opt">),</span>
+     <span class="hl kwd">numberWrappedLines</span> <span class="hl opt">(</span> <span class="hl kwa">true</span> <span class="hl opt">),</span>	<span class="hl slc">//until now, wrapped lines were always numbered, so this remains the default.</span>
+     <span class="hl kwd">noTrailingNewLine</span><span class="hl opt">(</span><span class="hl kwa">false</span><span class="hl opt">),</span>
+     <span class="hl kwd">resultOfHook</span><span class="hl opt">(</span><span class="hl kwa">false</span><span class="hl opt">),</span>
+     <span class="hl kwd">keywordCase</span> <span class="hl opt">(</span> StringTools<span class="hl opt">::</span>CASE_UNCHANGED <span class="hl opt">),</span>
+     <span class="hl kwd">eolDelimiter</span> <span class="hl opt">(</span><span class="hl str">'</span><span class="hl esc">\n</span><span class="hl str">'</span><span class="hl opt">),</span>
+     <span class="hl kwd">outputType</span> <span class="hl opt">(</span> type <span class="hl opt">)</span>
 <span class="hl opt">{</span>
-    ostringstream ostr<span class="hl opt">;</span>
-    <span class="hl kwa">if</span> <span class="hl opt">( !</span>styleInputPath<span class="hl opt">.</span><span class="hl kwd">empty</span><span class="hl opt">() )</span>
-    <span class="hl opt">{</span>
-        ifstream <span class="hl kwd">userStyleDef</span> <span class="hl opt">(</span> styleInputPath<span class="hl opt">.</span><span class="hl kwd">c_str</span><span class="hl opt">() );</span>
-        <span class="hl kwa">if</span> <span class="hl opt">(</span> userStyleDef <span class="hl opt">)</span>
-        <span class="hl opt">{</span>
-            ostr 	<span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span> <span class="hl opt">&lt;&lt;</span> styleCommentOpen
-                    <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot; Content of &quot;</span> <span class="hl opt">&lt;&lt;</span> styleInputPath
-                    <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;: &quot;</span> <span class="hl opt">&lt;&lt;</span>styleCommentClose <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
-            string line<span class="hl opt">;</span>
-            <span class="hl kwa">while</span> <span class="hl opt">(</span> <span class="hl kwd">getline</span> <span class="hl opt">(</span> userStyleDef<span class="hl opt">,</span> line <span class="hl opt">) )</span>
-            <span class="hl opt">{</span>
-                ostr <span class="hl opt">&lt;&lt;</span> line <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
-            <span class="hl opt">}</span>
-            userStyleDef<span class="hl opt">.</span><span class="hl kwd">close</span><span class="hl opt">();</span>
-        <span class="hl opt">}</span>
-        <span class="hl kwa">else</span>
-        <span class="hl opt">{</span>
-            ostr 	<span class="hl opt">&lt;&lt;</span> styleCommentOpen
-                    <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot; ERROR: Could not include &quot;</span> <span class="hl opt">&lt;&lt;</span> styleInputPath
-                    <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;.&quot;</span> <span class="hl opt">&lt;&lt;</span> styleCommentClose <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
-        <span class="hl opt">}</span>
-    <span class="hl opt">}</span>
-
-    string injections<span class="hl opt">=</span>docStyle<span class="hl opt">.</span><span class="hl kwd">getInjections</span><span class="hl opt">();</span>
-    <span class="hl kwa">if</span> <span class="hl opt">(!</span>injections<span class="hl opt">.</span><span class="hl kwd">empty</span><span class="hl opt">()) {</span>
-        ostr 	<span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span> <span class="hl opt">&lt;&lt;</span> styleCommentOpen
-                <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot; Plug-in theme injections: &quot;</span> <span class="hl opt">&lt;&lt;</span>styleCommentClose <span class="hl opt">&lt;&lt;</span> <span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
-        ostr <span class="hl opt">&lt;&lt;</span> injections<span class="hl opt">&lt;&lt;</span><span class="hl str">&quot;</span><span class="hl esc">\n</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
-    <span class="hl opt">}</span>
-    <span class="hl kwa">return</span> ostr<span class="hl opt">.</span><span class="hl kwd">str</span><span class="hl opt">();</span>
 <span class="hl opt">}</span>
 
-<span class="hl kwb">bool</span> CodeGenerator<span class="hl opt">::</span><span class="hl kwd">initPluginScript</span><span class="hl opt">(</span><span class="hl kwb">const</span> string<span class="hl opt">&amp;</span> script<span class="hl opt">) {</span>
 
-    <span class="hl kwa">if</span> <span class="hl opt">(</span>script<span class="hl opt">.</span><span class="hl kwd">empty</span><span class="hl opt">())</span> <span class="hl kwa">return true</span><span class="hl opt">;</span>
-
-    <span class="hl kwa">try</span> <span class="hl opt">{</span>
-        userScriptError<span class="hl opt">=</span><span class="hl str">&quot;&quot;</span><span class="hl opt">;</span>
-
-        Diluculum<span class="hl opt">::</span>LuaState ls<span class="hl opt">;</span>
-	
-	
-<span class="hl ppc">#ifdef NACL_BUILD</span>
-	ls<span class="hl opt">.</span><span class="hl kwd">doString</span><span class="hl opt">(</span>script<span class="hl opt">);</span>
-<span class="hl ppc">#else</span>
-        ls<span class="hl opt">.</span><span class="hl kwd">doFile</span> <span class="hl opt">(</span>script<span class="hl opt">);</span>
-<span class="hl ppc">#endif</span>
-
-        <span class="hl kwb">int</span> listIdx<span class="hl opt">=</span><span class="hl num">1</span><span class="hl opt">;</span>
-
-        <span class="hl kwa">while</span> <span class="hl opt">(</span>ls<span class="hl opt">[</span><span class="hl str">&quot;Plugins&quot;</span><span class="hl opt">][</span>listIdx<span class="hl opt">].</span><span class="hl kwd">value</span><span class="hl opt">() !=</span>Diluculum<span class="hl opt">::</span>Nil<span class="hl opt">) {</span>
-
-            <span class="hl slc">// Theme plugins</span>
-            <span class="hl kwa">if</span> <span class="hl opt">(</span>ls<span class="hl opt">[</span><span class="hl str">&quot;Plugins&quot;</span><span class="hl opt">][</span>listIdx<span class="hl opt">][</span><span class="hl str">&quot;Type&quot;</span><span class="hl opt">].</span><span class="hl kwd">value</span><span class="hl opt">().</span><span class="hl kwd">asString</span><span class="hl opt">()==</span><span class="hl str">&quot;theme&quot;</span><span class="hl opt">) {</span>
-                <span class="hl kwa">if</span> <span class="hl opt">(</span>ls<span class="hl opt">[</span><span class="hl str">&quot;Plugins&quot;</span><span class="hl opt">][</span>listIdx<span class="hl opt">][</span><span class="hl str">&quot;Chunk&quot;</span><span class="hl opt">].</span><span class="hl kwd">value</span><span class="hl opt">().</span><span class="hl kwd">type</span><span class="hl opt">()==</span>LUA_TFUNCTION<span class="hl opt">) {</span>
-                    docStyle<span class="hl opt">.</span><span class="hl kwd">addUserChunk</span><span class="hl opt">(</span>ls<span class="hl opt">[</span><span class="hl str">&quot;Plugins&quot;</span><span class="hl opt">][</span>listIdx<span class="hl opt">][</span><span class="hl str">&quot;Chunk&quot;</span><span class="hl opt">].</span><span class="hl kwd">value</span><span class="hl opt">().</span><span class="hl kwd">asFunction</span><span class="hl opt">());</span>
-                <span class="hl opt">}</span>
-            <span class="hl opt">}</span>
-            <span class="hl slc">// Syntax plugins</span>
-            <span class="hl kwa">else if</span> <span class="hl opt">(</span>ls<span class="hl opt">[</span><span class="hl str">&quot;Plugins&quot;</span><span class="hl opt">][</span>listIdx<span class="hl opt">][</span><span class="hl str">&quot;Type&quot;</span><span class="hl opt">].</span><span class="hl kwd">value</span><span class="hl opt">().</span><span class="hl kwd">asString</span><span class="hl opt">()==</span><span class="hl str">&quot;lang&quot;</span><span class="hl opt">) {</span>
-                <span class="hl kwa">if</span> <span class="hl opt">(</span>ls<span class="hl opt">[</span><span class="hl str">&quot;Plugins&quot;</span><span class="hl opt">][</span>listIdx<span class="hl opt">][</span><span class="hl str">&quot;Chunk&quot;</span><span class="hl opt">].</span><span class="hl kwd">value</span><span class="hl opt">().</span><span class="hl kwd">type</span><span class="hl opt">()==</span>LUA_TFUNCTION<span class="hl opt">) {</span>
-                    currentSyntax<span class="hl opt">-&gt;</span><span class="hl kwd">addUserChunk</span><span class="hl opt">(</span>ls<span class="hl opt">[</span><span class="hl str">&quot;Plugins&quot;</span><span class="hl opt">][</span>listIdx<span class="hl opt">][</span><span class="hl str">&quot;Chunk&quot;</span><span class="hl opt">].</span><span class="hl kwd">value</span><span class="hl opt">().</span><span class="hl kwd">asFunction</span><span class="hl opt">());</span>
-                <span class="hl opt">}</span>
-            <span class="hl opt">}</span>
-
-            listIdx<span class="hl opt">++;</span>
-        <span class="hl opt">}</span>
-    <span class="hl opt">}</span>  <span class="hl kwa">catch</span> <span class="hl opt">(</span>Diluculum<span class="hl opt">::</span>LuaError err<span class="hl opt">) {</span>
-        userScriptError<span class="hl opt">=</span>err<span class="hl opt">.</span><span class="hl kwd">what</span><span class="hl opt">();</span>
-        <span class="hl kwa">return false</span><span class="hl opt">;</span>
-    <span class="hl opt">}</span>
-    <span class="hl kwa">return true</span><span class="hl opt">;</span>
-<span class="hl opt">}</span>
-
-<span class="hl kwb">bool</span> CodeGenerator<span class="hl opt">::</span><span class="hl kwd">checkSpecialCmd</span><span class="hl opt">()</span>
+CodeGenerator<span class="hl opt">::~</span><span class="hl kwd">CodeGenerator</span><span class="hl opt">()</span>
 <span class="hl opt">{</span>
+    <span class="hl kwa">delete</span> formatter<span class="hl opt">;</span>
 
-    string noParseCmd<span class="hl opt">=</span><span class="hl str">&quot;&#64;highlight&quot;</span><span class="hl opt">;</span>
-
-    <span class="hl kwb">size_t</span> cmdPos <span class="hl opt">=</span> line<span class="hl opt">.</span><span class="hl kwd">find</span> <span class="hl opt">(</span> noParseCmd <span class="hl opt">);</span>
-
-    <span class="hl kwa">if</span> <span class="hl opt">(</span> cmdPos<span class="hl opt">!=</span>string<span class="hl opt">::</span>npos <span class="hl opt">)</span>
-    <span class="hl opt">{</span>
-        <span class="hl opt">*</span>out<span class="hl opt">&lt;&lt;</span>line<span class="hl opt">.</span><span class="hl kwd">substr</span> <span class="hl opt">(</span> noParseCmd<span class="hl opt">.</span><span class="hl kwd">size</span><span class="hl opt">() +</span>cmdPos <span class="hl opt">+</span> <span class="hl num">1</span> <span class="hl opt">);</span>
-
-        <span class="hl slc">// hide comment line from output</span>
-        token<span class="hl opt">.</span><span class="hl kwd">clear</span><span class="hl opt">();</span>
-        lineIndex<span class="hl opt">=</span>line<span class="hl opt">.</span><span class="hl kwd">length</span><span class="hl opt">();</span>
-        <span class="hl kwd">getInputChar</span><span class="hl opt">();</span>
-        lineNumber<span class="hl opt">--;</span>
-        <span class="hl slc">// end hide</span>
-
-        <span class="hl kwa">return true</span><span class="hl opt">;</span> <span class="hl slc">// do not parse line as comment</span>
+    <span class="hl kwa">for</span> <span class="hl opt">(</span> map<span class="hl opt">&lt;</span>string<span class="hl opt">,</span> SyntaxReader<span class="hl opt">*&gt;::</span>iterator it<span class="hl opt">=</span>syntaxReaders<span class="hl opt">.</span><span class="hl kwd">begin</span><span class="hl opt">();</span> it<span class="hl opt">!=</span>syntaxReaders<span class="hl opt">.</span><span class="hl kwd">end</span><span class="hl opt">();</span> it<span class="hl opt">++ ) {</span>
+        <span class="hl kwa">delete</span> it<span class="hl opt">-&gt;</span>second<span class="hl opt">;</span>
     <span class="hl opt">}</span>
-
-    <span class="hl kwa">return false</span><span class="hl opt">;</span> <span class="hl slc">//parse comment as usual</span>
 <span class="hl opt">}</span>
 
-<span class="hl opt">}</span>
+
+
+
+
 </pre>
 </body>
 </html>

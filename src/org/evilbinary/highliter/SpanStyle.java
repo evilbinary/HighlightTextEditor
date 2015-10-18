@@ -19,31 +19,29 @@ public class SpanStyle {
 		styles = new ArrayList<CharacterStyle>();
 	}
 
-	ForegroundColorSpan span = new ForegroundColorSpan(Color.RED);
-	ForegroundColorSpan span2 = new ForegroundColorSpan(Color.GREEN);
-
 	public void applyStyle(SpannableStringBuilder text, int start, int end, int flags) {
-//		System.out.println("tag:" + tag);
+		// System.out.println("tag:" + tag);
 		for (int i = 0; i < styles.size(); i++) {
 			text.setSpan(CharacterStyle.wrap(styles.get(i)), start, end, flags);
 
 		}
 	}
-	public int getSize(){
+
+	public int getSize() {
 		return styles.size();
 	}
-	 
 
 	public void addStyle(CharacterStyle style) {
 		styles.add(style);
 	}
 
-	public void addStyle(CharacterStyle style, String tag,CSSStyleDeclaration cssStyle) {
+	public void addStyle(CharacterStyle style, String tag, CSSStyleDeclaration cssStyle) {
 		styles.add(style);
 		this.tag = tag;
-		this.cssStyle=cssStyle;
+		this.cssStyle = cssStyle;
 	}
-	public CSSStyleDeclaration getCssStyle(){
+
+	public CSSStyleDeclaration getCssStyle() {
 		return this.cssStyle;
 	}
 

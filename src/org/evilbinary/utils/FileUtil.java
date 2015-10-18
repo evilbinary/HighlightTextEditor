@@ -155,9 +155,10 @@ public class FileUtil {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				am.open(name)));
 		String line;
+		String sp = System.getProperty("line.separator");
 		StringBuilder builder = new StringBuilder();
 		while ((line = reader.readLine()) != null) {
-			builder.append(line);
+			builder.append(line).append(sp);
 		}
 		reader.close();
 		return builder.toString();
