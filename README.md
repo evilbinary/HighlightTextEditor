@@ -8,7 +8,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/. */
 
 #截图
-* 代码编辑界面 ![编辑界面](https://github.com/evilbinary/HighlightTextEditor/raw/master/data/screenshot.jpg)
+* 代码编辑界面 
+	<br><img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/screenshot.jpg" alt="编辑界面" style="width:280px;">
 
 #Todo
 * 代码渲染完善等。
