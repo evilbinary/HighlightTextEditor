@@ -43,7 +43,6 @@ import com.steadystate.css.parser.SACParserCSS3;
 public class MyTagToSpannedConverter implements ContentHandler {
 
 	private SpannableStringBuilder mSpannableStringBuilder;
-	private String mSource;
 	private XMLReader mReader;
 
 	private HashMap<String, SpanStyle> mStyles;
@@ -57,8 +56,7 @@ public class MyTagToSpannedConverter implements ContentHandler {
 	private String mCurTag;
 	private String title;
 
-	public MyTagToSpannedConverter(Context context, String source) {
-		mSource = source;
+	public MyTagToSpannedConverter(Context context) {
 		mSpannableStringBuilder = new SpannableStringBuilder();
 		mStyles = new HashMap<String, SpanStyle>();
 		mContext = context;
@@ -79,8 +77,8 @@ public class MyTagToSpannedConverter implements ContentHandler {
 
 	}
 
-	public Spanned convert() {
-		InputSource is = new InputSource(new StringReader(mSource));
+	public Spanned convert(String source) {
+		InputSource is = new InputSource(new StringReader(source));
 		try {
 			mReader.setContentHandler(this);
 			mReader.parse(is);
