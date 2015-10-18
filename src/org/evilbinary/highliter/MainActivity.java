@@ -15,12 +15,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package org.evilbinary.highliter;
 
+import java.io.IOException;
+
+import org.evilbinary.utils.FileUtil;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-
 
 public class MainActivity extends Activity {
 
@@ -31,17 +34,16 @@ public class MainActivity extends Activity {
 
 		final LinearLayout linearLayout = new LinearLayout(this);
 		HighlightEditText hi = new HighlightEditText(this);
-		String source="嘎嘎<b><span class='hl opt'><a >(+</a></span> <span class='hl num'>2 34</span><span class='hl opt'>)</span></b>" +
-				"<b>text3:</b>  Text with a " +
-                "<a href=\"http://www.google.com\">link</a> " +
-                "created in the Java source code using HTML.";
-//		Spanned spanText=Html.fromHtml(source);
-//		hi.setText(spanText);
-		hi.setHtml(source);
-		linearLayout.setOrientation(LinearLayout.VERTICAL);
-		
-		linearLayout.addView(hi);
-		setContentView(linearLayout);
+		try {
+			String text = FileUtil.readFromAssetsFile(this, "test.html");
+			hi.setHtml(text);
+			linearLayout.setOrientation(LinearLayout.VERTICAL);
+			linearLayout.addView(hi);
+			setContentView(linearLayout);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

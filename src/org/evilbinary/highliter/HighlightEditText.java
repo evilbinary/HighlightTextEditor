@@ -32,15 +32,9 @@ public class HighlightEditText extends EditText {
 		super(context);
 		// TODO Auto-generated constructor stub
 	}
-
 	public void setHtml(String source) {
 		try {
-			String text = FileUtil.readFromAssetsFile(this.getContext(), "test.html");
-//			 text = text.replace("\r\n","<br />");
-//			 text = text.replace(" ","&nbsp;");
-			// String text =
-			// "看我颜色 <span class='hl kwa'>switch</span>     <span class=\"hl kwa\">case</span> ODTFLAT<span class=\"hl opt\">:</span> ";
-			MyTagToSpannedConverter converter = new MyTagToSpannedConverter(this.getContext(), text);
+			MyTagToSpannedConverter converter = new MyTagToSpannedConverter(this.getContext(), source);
 			Spanned spanText = converter.convert();
 			if(converter.getForeground()!=null)
 				this.setTextColor(converter.getForeground());
@@ -48,24 +42,10 @@ public class HighlightEditText extends EditText {
 				this.setBackgroundColor(converter.getBackground());
 			this.setText(spanText);
 
-			// SpannableString ss = new SpannableString("abcdefghijklm");
-			// ForegroundColorSpan fg=new ForegroundColorSpan(Color.BLUE);
-			// BackgroundColorSpan bg=new BackgroundColorSpan(Color.RED);
-			// //前景色
-			// ss.setSpan(fg, 1, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			//
-			// //背景色
-			// ss.setSpan(bg, 1, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			// ss.setSpan(CharacterStyle.wrap(bg), 3, 4,
-			// Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			//
-			// this.setText(ss);
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 }

@@ -1,5 +1,8 @@
 package org.evilbinary.highliter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -51,7 +54,6 @@ public class MyTagToSpannedConverter implements ContentHandler {
 	public static String TAG_PRE = "pre";
 	public static String TAG_SPAN = "span";
 	private String mCurTag;
-
 	private String title;
 
 	public MyTagToSpannedConverter(Context context, String source) {
@@ -151,54 +153,76 @@ public class MyTagToSpannedConverter implements ContentHandler {
 				String cssFileName = attributes.getValue("href");
 				System.out.println("pase css file:" + cssFileName);
 				InputStream is = getClass().getResourceAsStream("/assets/" + cssFileName);
-				InputStreamReader ir = new InputStreamReader(is);
-				org.w3c.css.sac.InputSource source = new org.w3c.css.sac.InputSource(ir);
+				paseCss(is);
+			}
+		}
+	}
+	
+	public void loadCss(String filePath){
+		paseCss(filePath);
+	}
+	
+	private void paseCss(String filePath) {
+		paseCss(new File(filePath));
+	}
 
-				CSSOMParser parser = new CSSOMParser(new SACParserCSS3());
-				try {
-					CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
-					CSSRuleList cssrules = sheet.getCssRules();
-					for (int i = 0; i < cssrules.getLength(); i++) {
-						CSSRule rule = cssrules.item(i);
-						if (rule instanceof CSSStyleRule) {
-							CSSStyleRule cssrule = (CSSStyleRule) rule;
-							System.out.println("cssrule.getCssText:" + cssrule.getCssText());
-							System.out.println("	cssrule.getSelectorText:" + cssrule.getSelectorText());
-							CSSStyleDeclaration styles = cssrule.getStyle();
+	private void paseCss(File file) {
+		try {
+			InputStream is = new FileInputStream(file);
+			paseCss(is);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-							SpanStyle spanStyles = new SpanStyle();
-							for (int j = 0, n = styles.getLength(); j < n; j++) {
-								String propName = styles.item(j);
-								if ("color".equalsIgnoreCase(propName)) {
-									int color = toColor((CSSPrimitiveValue) styles.getPropertyCSSValue(propName));
-									ForegroundColorSpan span = new ForegroundColorSpan(color);
-									spanStyles.addStyle(span, propName + " rgb:" + color, styles);
-								} else if ("background-color".equalsIgnoreCase(propName)) {
-									int color = toColor((CSSPrimitiveValue) styles.getPropertyCSSValue(propName));
-									BackgroundColorSpan span = new BackgroundColorSpan(color);
-									spanStyles.addStyle(span, propName, styles);
-								} else if ("font-size".equalsIgnoreCase(propName)) {
-									CSSPrimitiveValue val = (CSSPrimitiveValue) styles.getPropertyCSSValue(propName);
-									int sizePx = (int) val.getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
-									System.out.println(" sizePx====:" + sizePx);
-									int sizeDp = PxAndDp.px2dip(this.mContext, sizePx);
-									AbsoluteSizeSpan span = new AbsoluteSizeSpan(sizeDp);
-									spanStyles.addStyle(span, propName, styles);
-								}
+	private void paseCss(InputStream is) {
+		InputStreamReader ir = new InputStreamReader(is);
+		org.w3c.css.sac.InputSource source = new org.w3c.css.sac.InputSource(ir);
 
-							}
-							mStyles.put(cssrule.getSelectorText(), spanStyles);
-						} else if (rule instanceof CSSImportRule) {
-							CSSImportRule cssrule = (CSSImportRule) rule;
-							System.out.println(cssrule.getHref());
+		CSSOMParser parser = new CSSOMParser(new SACParserCSS3());
+		try {
+			CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+			CSSRuleList cssrules = sheet.getCssRules();
+			for (int i = 0; i < cssrules.getLength(); i++) {
+				CSSRule rule = cssrules.item(i);
+				if (rule instanceof CSSStyleRule) {
+					CSSStyleRule cssrule = (CSSStyleRule) rule;
+					System.out.println("cssrule.getCssText:" + cssrule.getCssText());
+					System.out.println("	cssrule.getSelectorText:" + cssrule.getSelectorText());
+					CSSStyleDeclaration styles = cssrule.getStyle();
+
+					SpanStyle spanStyles = new SpanStyle();
+					for (int j = 0, n = styles.getLength(); j < n; j++) {
+						String propName = styles.item(j);
+						if ("color".equalsIgnoreCase(propName)) {
+							int color = toColor((CSSPrimitiveValue) styles.getPropertyCSSValue(propName));
+							ForegroundColorSpan span = new ForegroundColorSpan(color);
+							spanStyles.addStyle(span, propName + " rgb:" + color, styles);
+						} else if ("background-color".equalsIgnoreCase(propName)) {
+							int color = toColor((CSSPrimitiveValue) styles.getPropertyCSSValue(propName));
+							BackgroundColorSpan span = new BackgroundColorSpan(color);
+							spanStyles.addStyle(span, propName, styles);
+						} else if ("font-size".equalsIgnoreCase(propName)) {
+							CSSPrimitiveValue val = (CSSPrimitiveValue) styles.getPropertyCSSValue(propName);
+							int sizePx = (int) val.getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
+							System.out.println(" sizePx====:" + sizePx);
+							int sizeDp = PxAndDp.px2dip(this.mContext, sizePx);
+							AbsoluteSizeSpan span = new AbsoluteSizeSpan(sizeDp);
+							spanStyles.addStyle(span, propName, styles);
 						}
-					}
 
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					}
+					mStyles.put(cssrule.getSelectorText(), spanStyles);
+				} else if (rule instanceof CSSImportRule) {
+					CSSImportRule cssrule = (CSSImportRule) rule;
+					System.out.println(cssrule.getHref());
 				}
 			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
