@@ -47,7 +47,7 @@ public class CodeTextWatcher implements TextWatcher {
 		int begin = end;
 		System.out.println(begin + "," + end);
 		boolean tagOn = false;
-		while (begin > 1) {
+		while (begin >= 1) {
 			String str = sub.subSequence(begin - 1, begin).toString();
 			if (!tagOn && (str.equals(" ") || str.equals("\n"))) {
 				break;
