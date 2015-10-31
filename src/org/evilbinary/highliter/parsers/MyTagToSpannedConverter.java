@@ -80,6 +80,7 @@ public class MyTagToSpannedConverter implements ContentHandler {
 	public Spanned convert(String source) {
 		InputSource is = new InputSource(new StringReader(source));
 		try {
+			mSpannableStringBuilder.clear();
 			mReader.setContentHandler(this);
 			mReader.parse(is);
 		} catch (IOException e) {
@@ -127,8 +128,9 @@ public class MyTagToSpannedConverter implements ContentHandler {
 				for (String s : classNames) {
 					name += "." + s;
 				}
-				// System.out.println("======name:"+name);
+				System.out.println("======name:"+name);
 				SpanStyle style = mStyles.get(name);
+				System.out.println("style=====:"+style);
 				start(mSpannableStringBuilder, style);
 			}
 
@@ -156,11 +158,11 @@ public class MyTagToSpannedConverter implements ContentHandler {
 			}
 		}
 	}
-	
-	public void loadCss(String filePath){
+
+	public void loadCss(String filePath) {
 		paseCss(filePath);
 	}
-	
+
 	private void paseCss(String filePath) {
 		paseCss(new File(filePath));
 	}
@@ -294,8 +296,8 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		if (where != len) {
 			// System.out.println("obj:" + obj);
 			if (kind == SpanStyle.class) {
+//				System.out.println("kind of spanStyle.class");
 				SpanStyle spanStyle = (SpanStyle) obj;
-				// System.out.println("obj:" + obj + " span:" + span);
 				spanStyle.applyStyle(text, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			} else {
 				text.clear();

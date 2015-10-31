@@ -17,6 +17,7 @@ package org.evilbinary.highliter;
 
 import org.evilbinary.highliter.parsers.MyTagToSpannedConverter;
 import org.evilbinary.highliter.parsers.SyntaxHighlight;
+import org.evilbinary.utils.DirUtil;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -65,11 +66,19 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 	protected int mHighlightStart;
 
 	protected Rect mDrawingRect, mLineBounds;
+	
+	protected String mSp;
 
 	public HighlightEditText(Context context) {
 		super(context);
 		converter = new MyTagToSpannedConverter(this.getContext());
-		maker = new SyntaxHighlight();
+		System.out.println("loadCss:"+DirUtil.getFilesDir(context)+"/highlight.css");
+		
+		converter.loadCss(DirUtil.getFilesDir(context)+"/highlight.css");
+		
+		String dataPath=DirUtil.getFilesDir(context);
+		maker = new SyntaxHighlight(dataPath);
+		
 		watcher = new CodeTextWatcher(maker, this, converter);
 		this.addTextChangedListener(watcher);
 
@@ -89,6 +98,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 		mGestureDetector = new GestureDetector(getContext(), this);
 
+		mSp= System.getProperty("line.separator");
 		updateFromSettings();
 	}
 
@@ -180,7 +190,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 			text = getText().toString();
 			line = i = 0;
 			while (i < selStart) {
-				i = text.indexOf("\n", i);
+				i = text.indexOf(mSp, i);
 				if (i < 0) {
 					break;
 				}

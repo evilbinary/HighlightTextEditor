@@ -28,6 +28,21 @@ along with Highlight.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DATADIR_H
 #define DATADIR_H
 
+#if ANDROID
+#include <android/log.h>
+	#ifndef TAG_NAME
+		#define TAG_NAME "highliter"
+	#endif
+	#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, TAG_NAME, __VA_ARGS__))
+	#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, TAG_NAME, __VA_ARGS__))
+	#define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, TAG_NAME, __VA_ARGS__))
+	#define LOGV(...) ((void)__android_log_print(ANDROID_LOG_VERBOSE, TAG_NAME, __VA_ARGS__))
+#else
+	#define LOGI(...)
+	#define LOGW(...)
+	#define LOGE(...)
+#endif
+
 using namespace std;
 
 /** \brief Manages access to installation directories.

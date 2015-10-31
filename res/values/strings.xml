@@ -4,5 +4,8 @@
     <string name="app_name">HighliterTextEditor</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="extract">正在解压</string>
+    <string name="extract_finish">解压结束</string>
+    <string name="extract_error">解压失败</string>
 
 </resources>

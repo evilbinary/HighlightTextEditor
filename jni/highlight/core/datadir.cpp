@@ -72,8 +72,11 @@ const string DataDir::searchFile(const string path){
 	for ( unsigned int i=0;i<possibleDirs.size();i++ )
 	{
 	 // cerr << "searching "<<possibleDirs[i]<< path<<"\n";
-		if ( Platform::fileExists ( possibleDirs[i] + path ) )
+		LOGI("searching:%s",(possibleDirs[i] + path ).c_str() );
+		if ( Platform::fileExists ( possibleDirs[i] + path ) ){
+			LOGI("searching true ret");
 			return possibleDirs[i]+ path;
+		}
 		
 	}
 	return path;

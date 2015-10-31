@@ -43,6 +43,22 @@ along with Highlight.  If not, see <http://www.gnu.org/licenses/>.
 #include "stringtools.h"
 #include "enums.h"
 
+
+#if ANDROID
+#include <android/log.h>
+	#ifndef TAG_NAME
+		#define TAG_NAME "highliter"
+	#endif
+	#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, TAG_NAME, __VA_ARGS__))
+	#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, TAG_NAME, __VA_ARGS__))
+	#define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, TAG_NAME, __VA_ARGS__))
+	#define LOGV(...) ((void)__android_log_print(ANDROID_LOG_VERBOSE, TAG_NAME, __VA_ARGS__))
+#else
+	#define LOGI(...)
+	#define LOGW(...)
+	#define LOGE(...)
+#endif
+
 #define OPT_OUTFORMAT      "out-format"
 #define OPT_ANCHORS        "anchors"
 #define OPT_ANCHOR_FN      "anchor-filename"
@@ -129,6 +145,8 @@ class CmdLineOptions
 		 \param argc Argument count
 		 \param argv Argument strings
 		*/
+		void init (const int argc, const char *argv[] ) ;
+		CmdLineOptions();
 		CmdLineOptions ( const int argc, const char *argv[] );
 		~CmdLineOptions();
 

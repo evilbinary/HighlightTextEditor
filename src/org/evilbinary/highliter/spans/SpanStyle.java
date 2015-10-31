@@ -20,10 +20,9 @@ public class SpanStyle {
 	}
 
 	public void applyStyle(SpannableStringBuilder text, int start, int end, int flags) {
-		// System.out.println("tag:" + tag);
+//		 System.out.println("styles size:" + styles.size());
 		for (int i = 0; i < styles.size(); i++) {
-			text.setSpan(CharacterStyle.wrap(styles.get(i)), start, end, flags);
-
+ 			text.setSpan(CharacterStyle.wrap(styles.get(i)), start, end, flags);
 		}
 	}
 
