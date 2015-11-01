@@ -9,7 +9,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 #截图
 * 代码编辑界面 
-	<br><img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/screenshot.jpg" alt="编辑界面" style="max-width:380px;">
+	<br><img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/screenshot.jpg" alt="编辑界面" style="max-width:380px;" width="380px">
 
 #Todo
 * 代码渲染完善等。
