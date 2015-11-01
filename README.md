@@ -10,41 +10,76 @@ You should have received a copy of the GNU General Public License along with thi
 #语法高亮
 HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持200多种语言，近90多种主题配色方案，同时支持lua扩展，以及自定义语言配置。强烈推荐，一款不可多得的开源控件。
 ###支持的语言：
-	abap4.lang        bat.lang          crk.lang          graphviz.lang     	lilypond.lang     n3.lang           plperl.lang       rs.lang           tex.lang
-	abc.lang          bbcode.lang       csharp.lang       haskell.lang      limbo.lang        	nasal.lang        plpython.lang     ruby.lang         ts.lang
-	abnf.lang         bcpl.lang         css.lang          haxe.lang         lindenscript.lang nbc.lang          pltcl.lang        s.lang            tsql.lang
-	actionscript.lang bibtex.lang       d.lang            hcl.lang          lisp.lang         nemerle.lang      pov.lang          sas.lang          ttcn3.lang
-	ada.lang          biferno.lang      dart.lang         html.lang         logtalk.lang      netrexx.lang      pro.lang          scala.lang        txt.lang
-	agda.lang         bison.lang        diff.lang         httpd.lang        lotos.lang        nice.lang         progress.lang     scilab.lang       upc.lang
-	algol.lang        blitzbasic.lang   dylan.lang        icon.lang         lotus.lang        nsis.lang         ps.lang           scss.lang         vala.lang
-	ampl.lang         bms.lang          ebnf.lang         idl.lang          lua.lang          nxc.lang          ps1.lang          sh.lang           vb.lang
-	amtrix.lang       bnf.lang          eiffel.lang       idlang.lang       luban.lang        oberon.lang       psl.lang          small.lang        verilog.lang
-	applescript.lang  boo.lang          erlang.lang       inc_luatex.lang   make.lang         objc.lang         pure.lang         smalltalk.lang    vhd.lang
-	arc.lang          c.lang            euphoria.lang     informix.lang     maple.lang        ocaml.lang        pyrex.lang        sml.lang          xml.lang
-	arm.lang          ceylon.lang       express.lang      ini.lang          matlab.lang       octave.lang       python.lang       snmp.lang         xpp.lang
-	as400cl.lang      charmm.lang       fame.lang         innosetup.lang    maya.lang         oorexx.lang       q.lang            snobol.lang       yaiff.lang
-	ascend.lang       chill.lang        felix.lang        interlis.lang     mercury.lang      os.lang           qmake.lang        spec.lang         yang.lang
-	asp.lang          clean.lang        fortran77.lang    io.lang           miranda.lang      oz.lang           qml.lang          spn.lang          znn.lang
-	aspect.lang       clearbasic.lang   fortran90.lang    jasmin.lang       mod2.lang         paradox.lang      qu.lang           sql.lang
-	assembler.lang    clipper.lang      frink.lang        java.lang         mod3.lang         pas.lang          r.lang            squirrel.lang
-	ats.lang          clojure.lang      fsharp.lang       js.lang           modelica.lang     pdf.lang          rebol.lang        styl.lang
-	autohotkey.lang   clp.lang          fx.lang           jsp.lang          moon.lang         perl.lang         rexx.lang         swift.lang
-	autoit.lang       cobol.lang        gambas.lang       ldif.lang         ms.lang           php.lang          rnc.lang          sybase.lang
-	avenue.lang       coldfusion.lang   gdb.lang          less.lang         mssql.lang        pike.lang         rpg.lang          tcl.lang
-	awk.lang          conf.lang         go.lang           lhs.lang          mxml.lang         pl1.lang          rpl.lang          tcsh.lang
+	abap4.lang        clojure.lang      innosetup.lang    nxc.lang          s.lang
+	abc.lang          clp.lang          interlis.lang     oberon.lang       sas.lang
+	abnf.lang         cobol.lang        io.lang           objc.lang         scala.lang
+	actionscript.lang coldfusion.lang   jasmin.lang       ocaml.lang        scilab.lang
+	ada.lang          conf.lang         java.lang         octave.lang       scss.lang
+	agda.lang         crk.lang          js.lang           oorexx.lang       sh.lang
+	algol.lang        csharp.lang       jsp.lang          os.lang           small.lang
+	ampl.lang         css.lang          ldif.lang         oz.lang           smalltalk.lang
+	amtrix.lang       d.lang            less.lang         paradox.lang      sml.lang
+	applescript.lang  dart.lang         lhs.lang          pas.lang          snmp.lang
+	arc.lang          diff.lang         lilypond.lang     pdf.lang          snobol.lang
+	arm.lang          dylan.lang        limbo.lang        perl.lang         spec.lang
+	as400cl.lang      ebnf.lang         lindenscript.lang php.lang          spn.lang
+	ascend.lang       eiffel.lang       lisp.lang         pike.lang         sql.lang
+	asp.lang          erlang.lang       logtalk.lang      pl1.lang          squirrel.lang
+	aspect.lang       euphoria.lang     lotos.lang        plperl.lang       styl.lang
+	assembler.lang    express.lang      lotus.lang        plpython.lang     swift.lang
+	ats.lang          fame.lang         lua.lang          pltcl.lang        sybase.lang
+	autohotkey.lang   felix.lang        luban.lang        pov.lang          tcl.lang
+	autoit.lang       fortran77.lang    make.lang         pro.lang          tcsh.lang
+	avenue.lang       fortran90.lang    maple.lang        progress.lang     tex.lang
+	awk.lang          frink.lang        matlab.lang       ps.lang           ts.lang
+	bat.lang          fsharp.lang       maya.lang         ps1.lang          tsql.lang
+	bbcode.lang       fx.lang           mercury.lang      psl.lang          ttcn3.lang
+	bcpl.lang         gambas.lang       miranda.lang      pure.lang         txt.lang
+	bibtex.lang       gdb.lang          mod2.lang         pyrex.lang        upc.lang
+	biferno.lang      go.lang           mod3.lang         python.lang       vala.lang
+	bison.lang        graphviz.lang     modelica.lang     q.lang            vb.lang
+	blitzbasic.lang   haskell.lang      moon.lang         qmake.lang        verilog.lang
+	bms.lang          haxe.lang         ms.lang           qml.lang          vhd.lang
+	bnf.lang          hcl.lang          mssql.lang        qu.lang           xml.lang
+	boo.lang          html.lang         mxml.lang         r.lang            xpp.lang
+	c.lang            httpd.lang        n3.lang           rebol.lang        yaiff.lang
+	ceylon.lang       icon.lang         nasal.lang        rexx.lang         yang.lang
+	charmm.lang       idl.lang          nbc.lang          rnc.lang          znn.lang
+	chill.lang        idlang.lang       nemerle.lang      rpg.lang
+	clean.lang        inc_luatex.lang   netrexx.lang      rpl.lang
+	clearbasic.lang   informix.lang     nice.lang         rs.lang
+	clipper.lang      ini.lang          nsis.lang         ruby.lang
 ###支持的配色主题：
-	acid.theme              bright.theme            earendel.theme          edit-vim-	dark.theme     manxome.theme           olive.theme             solarized-light.theme
-	aiseered.theme          camo.theme              easter.theme            edit-vim.theme          	maroloccio.theme        orion.theme             tabula.theme
-	andes.theme             candy.theme             edit-anjuta.theme       edit-xcode.theme        	matrix.theme            oxygenated.theme        tcsoft.theme
-	anotherdark.theme       clarity.theme           edit-eclipse.theme      ekvoli.theme            	moe.theme               pablo.theme             the.theme
-	autumn.theme            dante.theme             edit-emacs.theme        fine_blue.theme         	molokai.theme           peaksea.theme           vampire.theme
-	baycomb.theme           darkblue.theme          edit-flashdevelop.theme freya.theme             	moria.theme             print.theme             whitengrey.theme
-	bclear.theme            darkbone.theme          edit-gedit.theme        fruit.theme             	navajo-night.theme      rand01.theme            xoria256.theme
-	biogoo.theme            darkness.theme          edit-jedit.theme        golden.theme            	navy.theme              rdark.theme             zellner.theme
-	bipolar.theme           darkslategray.theme     edit-kwrite.theme       greenlcd.theme          	neon.theme              relaxedgreen.theme      zenburn.theme
-	blacknblue.theme        darkspectrum.theme      edit-matlab.theme       kellys.theme            	night.theme             rootwater.theme         zmrok.theme
-	bluegreen.theme         denim.theme             edit-msvs2008.theme     leo.theme               	nightshimmer.theme      seashell.theme
-	breeze.theme            dusk.theme              edit-nedit.theme        lucretia.theme          	nuvola.theme            solarized-dark.theme
+	acid.theme              darkspectrum.theme      fruit.theme             pablo.theme
+	aiseered.theme          denim.theme             golden.theme            peaksea.theme
+	andes.theme             dusk.theme              greenlcd.theme          print.theme
+	anotherdark.theme       earendel.theme          kellys.theme            rand01.theme
+	autumn.theme            easter.theme            leo.theme               rdark.theme
+	baycomb.theme           edit-anjuta.theme       lucretia.theme          relaxedgreen.theme
+	bclear.theme            edit-eclipse.theme      manxome.theme           rootwater.theme
+	biogoo.theme            edit-emacs.theme        maroloccio.theme        seashell.theme
+	bipolar.theme           edit-flashdevelop.theme matrix.theme            solarized-dark.theme
+	blacknblue.theme        edit-gedit.theme        moe.theme               solarized-light.theme
+	bluegreen.theme         edit-jedit.theme        molokai.theme           tabula.theme
+	breeze.theme            edit-kwrite.theme       moria.theme             tcsoft.theme
+	bright.theme            edit-matlab.theme       navajo-night.theme      the.theme
+	camo.theme              edit-msvs2008.theme     navy.theme              vampire.theme
+	candy.theme             edit-nedit.theme        neon.theme              whitengrey.theme
+	clarity.theme           edit-vim-dark.theme     night.theme             xoria256.theme
+	dante.theme             edit-vim.theme          nightshimmer.theme      zellner.theme
+	darkblue.theme          edit-xcode.theme        nuvola.theme            zenburn.theme
+	darkbone.theme          ekvoli.theme            olive.theme             zmrok.theme
+	darkness.theme          fine_blue.theme         orion.theme
+	darkslategray.theme     freya.theme             oxygenated.theme
+###插件支持：
+	asciidoc_html_add_links.lua        cpp_ref_wxwidgets_org.lua          outhtml_curly_brackets_matcher.lua
+	bash_functions.lua                 cpp_syslog.lua                     outhtml_keyword_matcher.lua
+	bash_ref_linuxmanpages_com.lua     cpp_wx.lua                         outhtml_parantheses_matcher.lua
+	cpp_qt.lua                         ctags_html_tooltips.lua            perl_ref_perl_org.lua
+	cpp_ref_cplusplus_com.lua          java_library.lua                   python_ref_python_org.lua
+	cpp_ref_gtk_gnome_org.lua          keywords_capitalize.lua            scala_ref_scala_lang_org.lua
+	cpp_ref_local_includes.lua         keywords_lowercase.lua             theme_invert.lua
+	cpp_ref_qtproject_org.lua          keywords_uppercase.lua             token_add_state_ids.lua	
 #截图
 * 代码编辑界面 
 	<br><img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/screenshot.jpg" alt="编辑界面" style="max-width:380px;" width="380px">
