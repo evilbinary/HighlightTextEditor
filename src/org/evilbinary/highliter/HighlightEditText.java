@@ -70,31 +70,18 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 	protected int mHighlightStart;
 
 	protected Rect mDrawingRect, mLineBounds;
-	
+
 	protected Configure mConfigure;
 
-	public HighlightEditText(Context context,Configure conf) {
+	public HighlightEditText(Context context, Configure conf) {
 		super(context);
-		mConfigure=conf;
-		updateFromSettings(mConfigure.mSettings);
-		
-		converter = new MyTagToSpannedConverter(this.getContext());
-		// System.out.println("loadCss:"+DirUtil.getFilesDir(context)+"/highlight.css");
-
-		converter.loadCss(DirUtil.getFilesDir(this.getContext()) + "/highlight.css");
-
-		String dataPath = DirUtil.getFilesDir(this.getContext());
-		maker = new SyntaxHighlight(dataPath);
-
-		watcher = new CodeTextWatcher(maker, this, converter);
-		this.addTextChangedListener(watcher);
+		mConfigure = conf;
 
 		mPaintNumbers = new Paint();
 		mPaintNumbers.setTypeface(Typeface.MONOSPACE);
 		mPaintNumbers.setAntiAlias(true);
 
 		mPaintHighlight = new Paint();
-
 		mScale = getResources().getDisplayMetrics().density;
 		mPadding = (int) (mPaddingDP * mScale);
 
@@ -104,14 +91,20 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		mLineBounds = new Rect();
 
 		mGestureDetector = new GestureDetector(getContext(), this);
-		
-		
+		loadFromConfigure(conf);
 	}
-	public void loadFromConfigure(Configure configure){
-		mConfigure=configure;
-		updateFromSettings(configure.mSettings);
+
+	public void loadFromConfigure(Configure configure) {
+		mConfigure = configure;
+		converter = new MyTagToSpannedConverter(this.getContext());
+		converter.loadCss(mConfigure.mHighlightCss);
+		maker = new SyntaxHighlight(mConfigure.mDataPath);
+		watcher = new CodeTextWatcher(maker, this, converter);
+		this.addTextChangedListener(watcher);
+		updateSettings();
 	}
-	public Configure getConfigure(){
+
+	public Configure getConfigure() {
 		return mConfigure;
 	}
 
@@ -138,7 +131,8 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		count = getLineCount();
 		if (mConfigure.mSettings.SHOW_LINE_NUMBERS) {
 			int padding = (int) (Math.floor(Math.log10(count)) + 1);
-			padding = (int) ((padding * mPaintNumbers.getTextSize()) + mPadding + (mConfigure.mSettings.TEXT_SIZE * mScale * 0.5));
+			padding = (int) ((padding * mPaintNumbers.getTextSize()) + mPadding + (mConfigure.mSettings.TEXT_SIZE
+					* mScale * 0.5));
 			if (mLinePadding != padding) {
 				mLinePadding = padding;
 				setPadding(mLinePadding, mPadding, mPadding, mPadding);
@@ -215,31 +209,31 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		}
 	}
 
-	public void updateFromSettings(Settings settings) {
+	private void updateSettings() {
 
 		if (isInEditMode()) {
 			return;
 		}
 
-		setTypeface(settings.getTypeface(getContext()));
+		setTypeface(mConfigure.mSettings.getTypeface(getContext()));
 
 		// wordwrap
-		setHorizontallyScrolling(!settings.WORDWRAP);
+		setHorizontallyScrolling(!mConfigure.mSettings.WORDWRAP);
 		setTextColor(Color.BLACK);
 		mPaintHighlight.setColor(Color.BLACK);
 		mPaintNumbers.setColor(Color.GRAY);
 		mPaintHighlight.setAlpha(48);
 
 		// text size
-		setTextSize(settings.TEXT_SIZE);
-		mPaintNumbers.setTextSize(settings.TEXT_SIZE * mScale * 0.85f);
+		setTextSize(mConfigure.mSettings.TEXT_SIZE);
+		mPaintNumbers.setTextSize(mConfigure.mSettings.TEXT_SIZE * mScale * 0.85f);
 
 		// refresh view
 		postInvalidate();
 		refreshDrawableState();
 
 		// use Fling when scrolling settings ?
-		if (settings.FLING_TO_SCROLL) {
+		if (mConfigure.mSettings.FLING_TO_SCROLL) {
 			mTedScroller = new Scroller(getContext());
 			mMaxSize = new Point();
 		} else {
@@ -250,9 +244,9 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		// padding
 		mLinePadding = mPadding;
 		int count = getLineCount();
-		if (settings.SHOW_LINE_NUMBERS) {
+		if (mConfigure.mSettings.SHOW_LINE_NUMBERS) {
 			mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
-			mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize()) + mPadding + (settings.TEXT_SIZE
+			mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize()) + mPadding + (mConfigure.mSettings.TEXT_SIZE
 					* mScale * 0.5));
 			setPadding(mLinePadding, mPadding, mPadding, mPadding);
 		} else {

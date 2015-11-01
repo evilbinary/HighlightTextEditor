@@ -41,7 +41,7 @@ public class ConfigureManager {
 	}
 	
 	public Configure getDefaultConfigure(){
-		return new Configure();
+		return new Configure(mContext);
 	}
 	
 	public void exractDefaultConfigure() {
