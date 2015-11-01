@@ -18,7 +18,10 @@ package org.evilbinary.highliter;
 
 import org.evilbinary.highliter.parsers.MyTagToSpannedConverter;
 import org.evilbinary.highliter.parsers.SyntaxHighlight;
+import org.evilbinary.managers.Configure;
+import org.evilbinary.managers.Settings;
 import org.evilbinary.utils.DirUtil;
+import org.evilbinary.utils.Logger;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -68,18 +71,21 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 	protected Rect mDrawingRect, mLineBounds;
 	
-	protected String mSp;
+	protected Configure mConfigure;
 
-	public HighlightEditText(Context context) {
+	public HighlightEditText(Context context,Configure conf) {
 		super(context);
+		mConfigure=conf;
+		updateFromSettings(mConfigure.mSettings);
+		
 		converter = new MyTagToSpannedConverter(this.getContext());
-		System.out.println("loadCss:"+DirUtil.getFilesDir(context)+"/highlight.css");
-		
-		converter.loadCss(DirUtil.getFilesDir(context)+"/highlight.css");
-		
-		String dataPath=DirUtil.getFilesDir(context);
+		// System.out.println("loadCss:"+DirUtil.getFilesDir(context)+"/highlight.css");
+
+		converter.loadCss(DirUtil.getFilesDir(this.getContext()) + "/highlight.css");
+
+		String dataPath = DirUtil.getFilesDir(this.getContext());
 		maker = new SyntaxHighlight(dataPath);
-		
+
 		watcher = new CodeTextWatcher(maker, this, converter);
 		this.addTextChangedListener(watcher);
 
@@ -89,7 +95,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 		mPaintHighlight = new Paint();
 
-		mScale = context.getResources().getDisplayMetrics().density;
+		mScale = getResources().getDisplayMetrics().density;
 		mPadding = (int) (mPaddingDP * mScale);
 
 		mHighlightedLine = mHighlightStart = -1;
@@ -98,9 +104,15 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		mLineBounds = new Rect();
 
 		mGestureDetector = new GestureDetector(getContext(), this);
-
-		mSp= System.getProperty("line.separator");
-		updateFromSettings();
+		
+		
+	}
+	public void loadFromConfigure(Configure configure){
+		mConfigure=configure;
+		updateFromSettings(configure.mSettings);
+	}
+	public Configure getConfigure(){
+		return mConfigure;
 	}
 
 	public void setHtml(String source) {
@@ -113,8 +125,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 			this.setText(spanText);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.e(e);
 		}
 	}
 
@@ -125,9 +136,9 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 		int count, lineX, baseline;
 		count = getLineCount();
-		if (Settings.SHOW_LINE_NUMBERS) {
+		if (mConfigure.mSettings.SHOW_LINE_NUMBERS) {
 			int padding = (int) (Math.floor(Math.log10(count)) + 1);
-			padding = (int) ((padding * mPaintNumbers.getTextSize()) + mPadding + (Settings.TEXT_SIZE * mScale * 0.5));
+			padding = (int) ((padding * mPaintNumbers.getTextSize()) + mPadding + (mConfigure.mSettings.TEXT_SIZE * mScale * 0.5));
 			if (mLinePadding != padding) {
 				mLinePadding = padding;
 				setPadding(mLinePadding, mPadding, mPadding, mPadding);
@@ -141,7 +152,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		computeLineHighlight();
 
 		// draw line numbers
-		lineX = (int) (mDrawingRect.left + mLinePadding - (Settings.TEXT_SIZE * mScale * 0.5));
+		lineX = (int) (mDrawingRect.left + mLinePadding - (mConfigure.mSettings.TEXT_SIZE * mScale * 0.5));
 		int min = 0;
 		int max = count;
 		getLineBounds(0, mLineBounds);
@@ -159,14 +170,14 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 			if ((mMaxSize != null) && (mMaxSize.x < mLineBounds.right)) {
 				mMaxSize.x = mLineBounds.right;
 			}
-			if ((i == mHighlightedLine) && (!Settings.WORDWRAP)) {
+			if ((i == mHighlightedLine) && (!mConfigure.mSettings.WORDWRAP)) {
 				canvas.drawRect(mLineBounds, mPaintHighlight);
 			}
 
-			if (Settings.SHOW_LINE_NUMBERS) {
+			if (mConfigure.mSettings.SHOW_LINE_NUMBERS) {
 				canvas.drawText("" + (i + 1), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
 			}
-			if (Settings.SHOW_LINE_NUMBERS) {
+			if (mConfigure.mSettings.SHOW_LINE_NUMBERS) {
 				canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
 			}
 		}
@@ -191,7 +202,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 			text = getText().toString();
 			line = i = 0;
 			while (i < selStart) {
-				i = text.indexOf(mSp, i);
+				i = text.indexOf(mConfigure.mLineSeparator, i);
 				if (i < 0) {
 					break;
 				}
@@ -204,36 +215,31 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		}
 	}
 
-	/**
-	 * Update view settings from the app preferences
-	 * 
-	 * @category Custom
-	 */
-	public void updateFromSettings() {
+	public void updateFromSettings(Settings settings) {
 
 		if (isInEditMode()) {
 			return;
 		}
 
-		setTypeface(Settings.getTypeface(getContext()));
+		setTypeface(settings.getTypeface(getContext()));
 
 		// wordwrap
-		setHorizontallyScrolling(!Settings.WORDWRAP);
+		setHorizontallyScrolling(!settings.WORDWRAP);
 		setTextColor(Color.BLACK);
 		mPaintHighlight.setColor(Color.BLACK);
 		mPaintNumbers.setColor(Color.GRAY);
 		mPaintHighlight.setAlpha(48);
 
 		// text size
-		setTextSize(Settings.TEXT_SIZE);
-		mPaintNumbers.setTextSize(Settings.TEXT_SIZE * mScale * 0.85f);
+		setTextSize(settings.TEXT_SIZE);
+		mPaintNumbers.setTextSize(settings.TEXT_SIZE * mScale * 0.85f);
 
 		// refresh view
 		postInvalidate();
 		refreshDrawableState();
 
 		// use Fling when scrolling settings ?
-		if (Settings.FLING_TO_SCROLL) {
+		if (settings.FLING_TO_SCROLL) {
 			mTedScroller = new Scroller(getContext());
 			mMaxSize = new Point();
 		} else {
@@ -244,9 +250,9 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		// padding
 		mLinePadding = mPadding;
 		int count = getLineCount();
-		if (Settings.SHOW_LINE_NUMBERS) {
+		if (settings.SHOW_LINE_NUMBERS) {
 			mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
-			mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize()) + mPadding + (Settings.TEXT_SIZE
+			mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize()) + mPadding + (settings.TEXT_SIZE
 					* mScale * 0.5));
 			setPadding(mLinePadding, mPadding, mPadding, mPadding);
 		} else {
@@ -259,6 +265,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		// TODO Auto-generated method stub
 		return true;
 	}
+
 	public void computeScroll() {
 
 		if (mTedScroller != null) {
@@ -279,10 +286,10 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-		if (!Settings.FLING_TO_SCROLL) {
+		if (!mConfigure.mSettings.FLING_TO_SCROLL) {
 			return true;
 		}
 
