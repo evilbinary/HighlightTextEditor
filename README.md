@@ -66,6 +66,8 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 * b198bdd - modify readme (evilbinary)
 * ef7d5c6 - Create README.md (evilbinary)
 * 95f3a12 - first version (evilbinary)
+
+
 #Todo
 * 代码渲染基本功能。 ［完成］
 * 支持200多种语言。 ［完成］
