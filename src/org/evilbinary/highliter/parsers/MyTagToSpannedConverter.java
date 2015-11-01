@@ -76,6 +76,7 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		mSpannableStringBuilder = new SpannableStringBuilder();
 		mStyles = new HashMap<String, SpanStyle>();
 		mContext = context;
+		mSp= System.getProperty("line.separator");
 		try {
 			mReader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
 			mReader.setFeature(Parser.bogonsEmptyFeature, true);
@@ -92,6 +93,10 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		}
 
 	}
+	public String getLineSeparator(){
+		return mSp;
+	}
+
 
 	public Spanned convert(String source) {
 		InputSource is = new InputSource(new StringReader(source));
