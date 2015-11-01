@@ -144,9 +144,9 @@ public class MyTagToSpannedConverter implements ContentHandler {
 				for (String s : classNames) {
 					name += "." + s;
 				}
-//				System.out.println("======name:"+name);
+				// System.out.println("======name:"+name);
 				SpanStyle style = mStyles.get(name);
-//				System.out.println("style=====:"+style);
+				// System.out.println("style=====:"+style);
 				start(mSpannableStringBuilder, style);
 			}
 
@@ -175,6 +175,86 @@ public class MyTagToSpannedConverter implements ContentHandler {
 		}
 	}
 
+	private void handleEndTag(String tag) {
+		if (tag.equalsIgnoreCase("span")) {
+			// System.out.println("span end===========================:" + tag);
+			end(mSpannableStringBuilder, SpanStyle.class);
+		} else if (tag.equalsIgnoreCase("pre")) {
+			// System.out.println("span end===========================:" + tag);
+			// end(mSpannableStringBuilder, SpanStyle.class);
+		} else if (tag.equalsIgnoreCase("br")) {
+			// System.out.println("span br===========================:" + tag);
+			mSpannableStringBuilder.append(mSp);
+		} else if (tag.equalsIgnoreCase("title")) {
+			// end(mSpannableStringBuilder, BulletSpan.class);
+		} else if (tag.equalsIgnoreCase("head")) {
+			// end(mSpannableStringBuilder, BulletSpan.class);
+		} else if (tag.equalsIgnoreCase(this.TAG_BODY)) {
+			// System.out.println("body end====================");
+		}
+	}
+
+	private static void start(SpannableStringBuilder text, Object mark) {
+		int len = text.length();
+		// System.out.println("start setSpan:" + len + " text:"+text);
+		text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
+	}
+
+	private static void end(SpannableStringBuilder text, Class kind) {
+		int len = text.length();
+		Object obj = getLast(text, kind);
+		int where = text.getSpanStart(obj);
+		text.removeSpan(obj);
+		// System.out.println(" where:" + where + " len:" + len);
+		if (where != len) {
+			// System.out.println("obj:" + obj);
+			if (kind == SpanStyle.class) {
+				// System.out.println("kind of spanStyle.class");
+				SpanStyle spanStyle = (SpanStyle) obj;
+				spanStyle.applyStyle(text, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			} else {
+				text.clear();
+			}
+		}
+
+		return;
+	}
+
+	private static Object getLast(Spanned text, Class kind) {
+		/*
+		 * This knows that the last returned object from getSpans() will be the
+		 * most recently added.
+		 */
+		Object[] objs = text.getSpans(0, text.length(), kind);
+
+		if (objs.length == 0) {
+			return null;
+		} else {
+			return objs[objs.length - 1];
+		}
+	}
+
+	@Override
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		// System.out.println("-------->endElement() is invoked...");
+		// System.out.println("uri的属性值：" + uri);
+		// System.out.println("localName的属性值：" + localName);
+		// System.out.println("qName的属性值：" + qName);
+		handleEndTag(localName);
+	}
+
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
+//		 System.out.println(this.mCurTag+"节点元素文本内容:" + new String(ch, start, length));
+		if (TAG_SPAN.equals(this.mCurTag)) {
+			mSpannableStringBuilder.append(new String(ch, start, length));
+		} else if (TAG_TITLE.equals(this.mCurTag)) {
+			title = new String(ch, start, length);
+		}else if (TAG_BODY.equals(this.mCurTag)){
+			mSpannableStringBuilder.append(new String(ch, start, length));
+		}
+	}
+	//加载css
 	public void loadCss(String filePath) {
 		paseCss(filePath);
 	}
@@ -276,84 +356,6 @@ public class MyTagToSpannedConverter implements ContentHandler {
 			return c;
 		}
 		return null;
-	}
-
-	private void handleEndTag(String tag) {
-		if (tag.equalsIgnoreCase("span")) {
-			// System.out.println("span end===========================:" + tag);
-			end(mSpannableStringBuilder, SpanStyle.class);
-		} else if (tag.equalsIgnoreCase("pre")) {
-			// System.out.println("span end===========================:" + tag);
-			// end(mSpannableStringBuilder, SpanStyle.class);
-		} else if (tag.equalsIgnoreCase("br")) {
-			// System.out.println("span br===========================:" + tag);
-			mSpannableStringBuilder.append(mSp);
-		} else if (tag.equalsIgnoreCase("title")) {
-			// end(mSpannableStringBuilder, BulletSpan.class);
-		} else if (tag.equalsIgnoreCase("head")) {
-			// end(mSpannableStringBuilder, BulletSpan.class);
-		} else if (tag.equalsIgnoreCase(this.TAG_BODY)) {
-			// System.out.println("body end====================");
-		}
-	}
-
-	private static void start(SpannableStringBuilder text, Object mark) {
-		int len = text.length();
-		// System.out.println("start setSpan:" + len + " text:"+text);
-		text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
-	}
-
-	private static void end(SpannableStringBuilder text, Class kind) {
-		int len = text.length();
-		Object obj = getLast(text, kind);
-		int where = text.getSpanStart(obj);
-		text.removeSpan(obj);
-		// System.out.println(" where:" + where + " len:" + len);
-		if (where != len) {
-			// System.out.println("obj:" + obj);
-			if (kind == SpanStyle.class) {
-//				System.out.println("kind of spanStyle.class");
-				SpanStyle spanStyle = (SpanStyle) obj;
-				spanStyle.applyStyle(text, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			} else {
-				text.clear();
-			}
-		}
-
-		return;
-	}
-
-	private static Object getLast(Spanned text, Class kind) {
-		/*
-		 * This knows that the last returned object from getSpans() will be the
-		 * most recently added.
-		 */
-		Object[] objs = text.getSpans(0, text.length(), kind);
-
-		if (objs.length == 0) {
-			return null;
-		} else {
-			return objs[objs.length - 1];
-		}
-	}
-
-	@Override
-	public void endElement(String uri, String localName, String qName) throws SAXException {
-		// System.out.println("-------->endElement() is invoked...");
-		// System.out.println("uri的属性值：" + uri);
-		// System.out.println("localName的属性值：" + localName);
-		// System.out.println("qName的属性值：" + qName);
-		handleEndTag(localName);
-	}
-
-	@Override
-	public void characters(char[] ch, int start, int length) throws SAXException {
-		// System.out.println("节点元素文本内容:" + new String(ch, start, length));
-		if (TAG_SPAN.equals(this.mCurTag)) {
-			mSpannableStringBuilder.append(new String(ch, start, length));
-		} else if (TAG_TITLE.equals(this.mCurTag)) {
-			title = new String(ch, start, length);
-		}
 	}
 
 	public String getTitle() {

@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
 	
 		try {
 			String text = FileUtil.readFromAssetsFile(this, "test.html");
-			text="<span class=\"hl kwb\">int</span>";
+			text="aa<span class=\"hl opt\">=</span><span class=\"hl num\">1000</span><span class=\"hl opt\">;</span>";
 			hi.setHtml(text);
 			linearLayout.setOrientation(LinearLayout.VERTICAL);
 			linearLayout.addView(hi);
