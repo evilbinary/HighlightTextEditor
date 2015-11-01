@@ -1,3 +1,19 @@
+/* Copyright (C) 2015 evilbinary.
+ * rootdebug@163.com
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "app.h"
 
 #include <memory>
@@ -30,7 +46,7 @@ JNIEXPORT jint JNICALL Java_org_evilbinary_highliter_parsers_SyntaxHighlight_ini
 
 JNIEXPORT jstring JNICALL Java_org_evilbinary_highliter_parsers_SyntaxHighlight_pase(
 		JNIEnv *env, jobject obj, jstring code) {
-	LOGI("pase highliter:%p", highliter);
+//	LOGI("pase highliter:%p", highliter);
 
 	jboolean iscopy = JNI_TRUE;
 	const char* str = env->GetStringUTFChars(code, &iscopy);
@@ -46,7 +62,7 @@ JNIEXPORT jstring JNICALL Java_org_evilbinary_highliter_parsers_SyntaxHighlight_
 	char *cstr = out.c_str();
 	jstring result = env->NewStringUTF(cstr);
 
-	LOGI("out:%s",cstr);
+//	LOGI("out:%s",cstr);
 	return result;
 
 }
@@ -307,7 +323,7 @@ int HighliterAndroid::parse(string content, string &out) {
 	generator->setKeyWordCase(options.getKeywordCase());
 
 	out = generator->generateString(content);
-	LOGI("generate out:%s",out.c_str() );
+//	LOGI("generate out:%s",out.c_str() );
 
 	if (formattingEnabled && !generator->formattingIsPossible()) {
 		if (numBadFormatting++ < IO_ERROR_REPORT_LENGTH

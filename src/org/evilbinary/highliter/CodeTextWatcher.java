@@ -1,7 +1,24 @@
+/* Copyright (C) 2015 evilbinary.
+ * rootdebug@163.com
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.evilbinary.highliter;
 
 import org.evilbinary.highliter.parsers.MyTagToSpannedConverter;
 import org.evilbinary.highliter.parsers.SyntaxHighlight;
+import org.evilbinary.utils.DirUtil;
 import org.evilbinary.utils.Logger;
 
 import android.graphics.Color;
@@ -10,7 +27,9 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.widget.EditText;
 
 public class CodeTextWatcher implements TextWatcher {
@@ -61,21 +80,27 @@ public class CodeTextWatcher implements TextWatcher {
 		}
 		if (begin < end) {
 			CharSequence str = sub.subSequence(begin, end);
-			System.out.println(begin + " " + end + " str:" + str);
-
+//			System.out.println(begin + " " + end + " str:" + str);
 			if (str != null && !str.equals("")) {
 				String result = mHi.pase(str.toString());
-				System.out.println("#############@@@@@@@@@@@@@:" + result);
-
-				 Spanned spanText=mConverter.convert(result);
-				 if(spanText!=null){
-					 System.out.println("#############"+spanText);
-					 
-					 SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder)mText.getText();
-					 spannableStringBuilder.setSpan(spanText, begin, end,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//					 spanText.setSpan(new ForegroundColorSpan(Color.GREEN), begin, end,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					 
-				 }
+//				System.out.println("#############@@@@@@@@@@@@@:" + result);
+				Spanned spanText = mConverter.convert(result);
+				if (spanText != null) {
+//					System.out.println("#############" + spanText);
+					SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) mText.getText();
+					CharacterStyle[] allSpans =spanText.getSpans(0, spanText.length(), CharacterStyle.class);
+//					System.out.println("allSpans.length:"+allSpans.length);
+					for(CharacterStyle span:allSpans){
+						int spanStart = spanText.getSpanStart(span);
+				        int spanEnd = spanText.getSpanEnd(span);
+				        int flag=spanText.getSpanFlags(span);
+//				        System.out.println("start:"+spanStart+" end:"+spanEnd);
+//				        System.out.println("estart:"+begin+spanStart+" eend:"+begin+spanEnd);
+						spannableStringBuilder.setSpan(span, begin+spanStart, begin+spanEnd, flag);
+					}
+			 
+ 
+				}
 			}
 		}
 
