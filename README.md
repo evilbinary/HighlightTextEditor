@@ -1,5 +1,6 @@
 HighlightTextEditor
-An android HighlightTextEditor
+
+An android HighlightTextEditor一款语法高亮控件。
 
 #语法高亮
 HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持200多种语言，近90多种主题配色方案，同时支持lua扩展，以及自定义语言配置。强烈推荐，一款不可多得的开源控件。
