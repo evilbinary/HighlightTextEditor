@@ -30,7 +30,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.CharacterStyle;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -91,34 +93,60 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		mLineBounds = new Rect();
 
 		mGestureDetector = new GestureDetector(getContext(), this);
+
 		loadFromConfigure(conf);
 	}
 
 	public void loadFromConfigure(Configure configure) {
 		mConfigure = configure;
 		converter = new MyTagToSpannedConverter(this.getContext());
-		converter.loadCss(mConfigure.mDataPath+"/"+mConfigure.mHighlightCss);
+		converter.loadCss(mConfigure.mDataPath + "/" + mConfigure.mHighlightCss);
 		maker = new SyntaxHighlight(mConfigure);
 		watcher = new CodeTextWatcher(maker, this, converter);
 		this.addTextChangedListener(watcher);
+
 		updateSettings();
+		if (converter.getForeground() != null)
+			this.setTextColor(converter.getForeground());
+		if (converter.getBackground() != null)
+			this.setBackgroundColor(converter.getBackground());
+
 	}
 
 	public Configure getConfigure() {
 		return mConfigure;
 	}
 
-	public void setHtml(String source) {
+	public void setHtml(String htmlSource) {
 		try {
-			Spanned spanText = converter.convert(source);
-			if (converter.getForeground() != null)
-				this.setTextColor(converter.getForeground());
-			if (converter.getBackground() != null)
-				this.setBackgroundColor(converter.getBackground());
+			Spanned spanText = converter.convert(htmlSource);
 			this.setText(spanText);
 
 		} catch (Exception e) {
 			Logger.e(e);
+		}
+	}
+
+	public void setSource(String source) {
+		if (source != null && !source.equals("")) {
+			setText(source);
+			String result = maker.pase(source);
+			Spanned spanText = converter.convert(result);
+			render(spanText,0);
+		}
+	}
+
+	public void render(Spanned spanText,int begin) {
+		if (spanText != null) {
+			SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) this.getText();
+			CharacterStyle[] allSpans = spanText.getSpans(0, spanText.length(), CharacterStyle.class);
+			for (CharacterStyle span : allSpans) {
+				int spanStart = spanText.getSpanStart(span);
+				int spanEnd = spanText.getSpanEnd(span);
+				int flag = spanText.getSpanFlags(span);
+				spannableStringBuilder.setSpan(span, begin + spanStart, begin + spanEnd, flag);
+			}
+
 		}
 	}
 
@@ -219,7 +247,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 		// wordwrap
 		setHorizontallyScrolling(!mConfigure.mSettings.WORDWRAP);
-		setTextColor(Color.BLACK);
+		// setTextColor(Color.BLACK);
 		mPaintHighlight.setColor(Color.BLACK);
 		mPaintNumbers.setColor(Color.GRAY);
 		mPaintHighlight.setAlpha(48);

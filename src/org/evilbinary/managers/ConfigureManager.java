@@ -54,14 +54,24 @@ public class ConfigureManager {
 		}
 		return conf;
 	}
+	public Configure createConfigure(String name){
+		Configure conf=new Configure(mContext);
+		mConfigures.put(name, conf);
+		return conf;
+	}
+	public Configure getConfigure(String name){
+		Configure conf=mConfigures.get(name);
+		return conf;
+	}
+	
 	
 	public void exractDefaultConfigure() {
 		new Thread() {
 			public void run() {
 				Looper.prepare();
-				extractZipFile("plugins");
-				extractZipFile("themes");
 				extractZipFile("langDefs");
+				extractZipFile("themes");
+				extractZipFile("plugins");
 				Looper.loop();
 			}
 		}.start();

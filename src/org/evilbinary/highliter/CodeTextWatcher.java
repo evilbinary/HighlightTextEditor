@@ -60,11 +60,13 @@ public class CodeTextWatcher implements TextWatcher {
 	@Override
 	public void onTextChanged(CharSequence sub, int start, int before, int after) {
 		// TODO Auto-generated method stub
-		// Logger.d("onTextChanged");
+//		 Logger.d("onTextChanged");
 		int end = mText.getSelectionStart();
 		int begin = end;
-//		System.out.println(begin + "," + end);
 		boolean tagOn = false;
+//		System.out.println("begin-end="+begin + "," + end);
+//		System.out.println(start + "," + before+","+after);
+
 		while (begin >= 1) {
 			String str = sub.subSequence(begin - 1, begin).toString();
 			if (!tagOn && (str.equals(" ") || str.equals(mConverter.getLineSeparator()))) {
@@ -93,28 +95,16 @@ public class CodeTextWatcher implements TextWatcher {
 			}
 			begin--;
 		}
+//		System.out.println("begin-end2="+begin + "," + end);
+
 		if (begin >= 0 && begin < end) {
 			CharSequence str = sub.subSequence(begin, end);
-			// System.out.println(begin + " " + end + " str:" + str);
+			 //System.out.println(begin + " " + end + " str:" + str);
 			if (str != null && !str.equals("")) {
 				String result = mHi.pase(str.toString());
 				// System.out.println("@@@@@@@@@@@@@:" + result);
 				Spanned spanText = mConverter.convert(result);
-				if (spanText != null) {
-					// System.out.println("#############" + spanText);
-					SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) mText.getText();
-					CharacterStyle[] allSpans = spanText.getSpans(0, spanText.length(), CharacterStyle.class);
-					// System.out.println("allSpans.length:"+allSpans.length);
-					for (CharacterStyle span : allSpans) {
-						int spanStart = spanText.getSpanStart(span);
-						int spanEnd = spanText.getSpanEnd(span);
-						int flag = spanText.getSpanFlags(span);
-						// System.out.println("start:"+spanStart+" end:"+spanEnd);
-						// System.out.println("estart:"+begin+spanStart+" eend:"+begin+spanEnd);
-						spannableStringBuilder.setSpan(span, begin + spanStart, begin + spanEnd, flag);
-					}
-
-				}
+				mText.render(spanText, begin);
 			}
 		}
 

@@ -23,24 +23,39 @@ public class SyntaxHighlight {
 		System.loadLibrary("lua");
 		System.loadLibrary("highlight");
 	}
-	private String mArgs="hilighlight";
-	private String mDelim=":";
-	public SyntaxHighlight(Configure conf){
-		
-		addArg("-D"+conf.mDataPath);
-		addArg("-d"+conf.mDataPath);
-		addArg("--syntax="+conf.mLanguage);
+	private String mArgs = "hilighlight";
+	private String mDelim = ":";
+
+	public SyntaxHighlight(Configure conf) {
+
+		addArg("-D" + conf.mDataPath);
+		addArg("-d" + conf.mDataPath);
+		if (conf.mLanguage != null && !conf.mLanguage.equals(""))
+			addArg("--syntax=" + conf.mLanguage);
 		addArg("-f");
-		addArg("--print-style");//first gencssfile
-		addArg("-s"+conf.mTheme);
-		addArg("-c"+conf.mHighlightCss);
- 		init(mArgs);
+		addArg("--print-style");// first gencssfile
+		if (conf.mTheme != null && !conf.mTheme.equals(""))
+			addArg("-s" + conf.mTheme);
+		if (conf.mHighlightCss != null && !conf.mHighlightCss.equals(""))
+			addArg("-c" + conf.mHighlightCss);
+		
+		if (conf.mFont != null && !conf.mFont.equals(""))
+			addArg("--font=" + conf.mFont);
+		if (conf.mFontSize != 0)
+			addArg("--font-size=" + conf.mFontSize);
+		if (conf.mEncoding != null && !conf.mEncoding.equals(""))
+			addArg("--encoding=" + conf.mEncoding);
+		init(mArgs);
 	}
-	private void addArg(String arg){
-		mArgs+=mDelim+arg;
+
+	private void addArg(String arg) {
+		mArgs += mDelim + arg;
 	}
+
 	private native int init(String args);
+
 	public native String pase(String codeBlock);
+
 	public native String getTheme(String name);
 
 }
