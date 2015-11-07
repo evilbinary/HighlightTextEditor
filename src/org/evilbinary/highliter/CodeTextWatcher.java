@@ -63,7 +63,7 @@ public class CodeTextWatcher implements TextWatcher {
 		// Logger.d("onTextChanged");
 		int end = mText.getSelectionStart();
 		int begin = end;
-		System.out.println(begin + "," + end);
+//		System.out.println(begin + "," + end);
 		boolean tagOn = false;
 		while (begin >= 1) {
 			String str = sub.subSequence(begin - 1, begin).toString();

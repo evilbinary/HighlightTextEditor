@@ -16,17 +16,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package org.evilbinary.highliter.parsers;
 
+import org.evilbinary.managers.Configure;
+
 public class SyntaxHighlight {
 	static {
 		System.loadLibrary("lua");
 		System.loadLibrary("highlight");
 	}
-	public SyntaxHighlight(String dataPath){
-		init(dataPath);
+	private String mArgs="hilighlight";
+	private String mDelim=":";
+	public SyntaxHighlight(Configure conf){
 		
+		addArg("-D"+conf.mDataPath);
+		addArg("-d"+conf.mDataPath);
+		addArg("--syntax="+conf.mLanguage);
+		addArg("-f");
+		addArg("--print-style");//first gencssfile
+		addArg("-s"+conf.mTheme);
+		addArg("-c"+conf.mHighlightCss);
+ 		init(mArgs);
 	}
-	
-	public native int init(String path);
+	private void addArg(String arg){
+		mArgs+=mDelim+arg;
+	}
+	private native int init(String args);
 	public native String pase(String codeBlock);
+	public native String getTheme(String name);
 
 }

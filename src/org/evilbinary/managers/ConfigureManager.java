@@ -3,6 +3,7 @@ package org.evilbinary.managers;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.zip.ZipException;
 
 import org.evilbinary.highliter.R;
@@ -22,9 +23,14 @@ public class ConfigureManager {
 	private Context mContext;
 	private Handler mHandler;
 	
+	
+	private HashMap<String,Configure> mConfigures;
+	
 	private final static int SHOW_TIPS = 1;
+	private final static String CONF_DEFAULT="default";
 
 	public ConfigureManager(Context context) {
+		mConfigures=new HashMap<String,Configure>();
 		mContext = context;
 		mConfigDir = DirUtil.getFilesDir(context);
 		mHandler = new Handler() {
@@ -41,7 +47,12 @@ public class ConfigureManager {
 	}
 	
 	public Configure getDefaultConfigure(){
-		return new Configure(mContext);
+		Configure conf=mConfigures.get(CONF_DEFAULT);
+		if(conf==null){
+			conf=new Configure(mContext);
+			mConfigures.put(CONF_DEFAULT, conf);
+		}
+		return conf;
 	}
 	
 	public void exractDefaultConfigure() {

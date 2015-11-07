@@ -29,18 +29,19 @@ using namespace std;
 static HighliterAndroid* highliter = NULL;
 
 JNIEXPORT jint JNICALL Java_org_evilbinary_highliter_parsers_SyntaxHighlight_init(
-		JNIEnv *env, jobject obj, jstring path) {
+		JNIEnv *env, jobject obj, jstring args) {
 
 	highliter = new HighliterAndroid();
 	jboolean iscopy = JNI_TRUE;
-	const char* str = env->GetStringUTFChars(path, &iscopy);
+	const char* str = env->GetStringUTFChars(args, &iscopy);
 	if (str == NULL) {
 		return -1;
 	}
-	string dataDirPath(str);
-	env->ReleaseStringUTFChars((jstring) path, str);
-	LOGI("dataDirPath:%s", dataDirPath.c_str());
-	highliter->init(dataDirPath);
+	string pargs(str);
+	env->ReleaseStringUTFChars((jstring) args, str);
+	LOGI("args:%s", pargs.c_str());
+	highliter->init(pargs);
+
 	LOGI("init highliter:%p", highliter);
 }
 
@@ -76,19 +77,45 @@ void HighliterAndroid::destroy() {
 		delete generator;
 	}
 }
-int HighliterAndroid::init(string dataDirPath) {
-	int argc = 5;
-	dataDirPath += "/";
-	string outflag = "-d" + dataDirPath;
-	char *argv[5] = { "hilighlight", "--syntax=c","-f","-smolokai", outflag.c_str() };
 
+std::vector<std::string> split(const  std::string& s, const std::string& delim){
+    std::vector<std::string> elems;
+    size_t pos = 0;
+    size_t len = s.length();
+    size_t delim_len = delim.length();
+    if (delim_len == 0) return elems;
+    while (pos < len){
+        int find_pos = s.find(delim, pos);
+        if (find_pos < 0){
+            elems.push_back(s.substr(pos, len - pos));
+            break;
+        }
+        elems.push_back(s.substr(pos, find_pos - pos));
+        pos = find_pos + delim_len;
+    }
+    return elems;
+}
+
+int HighliterAndroid::init(string args) {
+	vector<string > vargs=split(args,":");
+
+	int argc = vargs.size();
+	//dataDirPath += "/";
+	//string outflag = "-d" + dataDirPath;
+	//char *argv[7] = { "hilighlight", "--syntax=c","-f","-smolokai","-chighlight.css",outflag.c_str() };
+	char ** argv=new char*[argc];
+	for(int i=0;i<argc;i++){
+		argv[i]=vargs[i].c_str();
+		LOGI("	%s",argv[i]);
+	}
 	LOGI("init====");
 	options.init(argc, argv);
+	delete argv;
 
 	LOGI("hoptions finish");
 
 	LOGI("initSearchDirectories");
-	dataDir.initSearchDirectories(dataDirPath);
+	dataDir.initSearchDirectories(options.getDataDir());
 	LOGI("loadFileTypeConfig");
 	//call before printInstalledLanguages!
 	loadFileTypeConfig("filetypes", &extensions, &scriptShebangs);
@@ -170,6 +197,8 @@ int HighliterAndroid::init(string dataDirPath) {
 	styleFileWanted = !options.fragmentOutput()
 			|| options.styleOutPathDefined();
 
+	LOGI("styleFileWanted:%d options.fragmentOutput():%d",styleFileWanted,options.fragmentOutput());
+
 	const vector<string> pluginFileList = collectPluginPaths(
 			options.getPluginPaths());
 	for (unsigned int i = 0; i < pluginFileList.size(); i++) {
@@ -207,7 +236,8 @@ int HighliterAndroid::init(string dataDirPath) {
 			LOGE("highlight: Could not write %s.\n", cssOutFile.c_str());
 			return EXIT_FAILURE;
 		}
-		return EXIT_SUCCESS;
+		styleFileWanted=0;
+		//return EXIT_SUCCESS;
 	}
 	LOGI("generator set finish8");
 
@@ -331,9 +361,8 @@ int HighliterAndroid::parse(string content, string &out) {
 			badFormattedFiles.push_back(outFilePath);
 		}
 	}
-	++i;
 
-	if (i && !options.includeStyleDef() && styleFileWanted
+	if ( !options.includeStyleDef() && styleFileWanted
 			&& options.formatSupportsExtStyle()) {
 		string cssOutFile = outDirectory + options.getStyleOutFilename();
 		bool success = generator->printExternalStyle(cssOutFile);
@@ -344,7 +373,7 @@ int HighliterAndroid::parse(string content, string &out) {
 		}
 	}
 
-	if (i && options.printIndexFile()) {
+	if (options.printIndexFile()) {
 		bool success = generator->printIndexFile(inFileList, outDirectory);
 		if (!success) {
 			cerr << "highlight: Could not write index file.\n";

@@ -10,12 +10,20 @@ public class Configure {
 	public  String mLineSeparator ;
 	public String mDataPath;
 	public String mHighlightCss;
-	
+	public String mLanguage;
+	public String mTheme;
+	public String mEncoding;
+	public int mFontSize;
+	public String mFont;
+	public String mPlugin;
 
 	public Configure(Context context){
 		mSettings=new Settings();
 		mLineSeparator= System.getProperty("line.separator");
 		mDataPath=DirUtil.getFilesDir(context);
-		mHighlightCss=mDataPath+ "/highlight.css";
+		mHighlightCss="highlight.css";
+		mLanguage="c";
+		mTheme="molokai";
+		
 	}
 }
