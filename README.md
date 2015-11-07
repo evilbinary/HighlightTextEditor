@@ -83,9 +83,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Candy.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Seashell.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Matrix.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
-	
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Vampire.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
-
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Breeze.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
 
 #历史记录
