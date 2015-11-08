@@ -57,17 +57,16 @@ public class MainActivity extends Activity {
 		configureManager=new ConfigureManager(this);	
 		configureManager.exractDefaultConfigure();
 		Configure conf=configureManager.getDefaultConfigure();
-		conf.mTheme="matrix";
-		conf.mLanguage="python";
+		conf.mTheme="solarized-light";
+		conf.mLanguage="lisp";
 		
 		final LinearLayout linearLayout = new LinearLayout(this);
 		HighlightEditText hi = new HighlightEditText(this,conf);
 	
 		try {
 			String text = FileUtil.readFromAssetsFile(this, "test.html");
-			String textcode=FileUtil.readFromAssetsFile(this, "fib.py");
+			String textcode=FileUtil.readFromAssetsFile(this, "lib.lisp");
 			hi.setSource(textcode);
-			//text="aa<span class=\"hl opt\">=</span><span class=\"hl num\">1000</span><span class=\"hl opt\">;</span>";
 			//hi.setHtml(text);
 			
 			linearLayout.setOrientation(LinearLayout.VERTICAL);
