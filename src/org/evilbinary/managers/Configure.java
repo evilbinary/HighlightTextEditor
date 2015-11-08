@@ -3,6 +3,7 @@ package org.evilbinary.managers;
 import org.evilbinary.utils.DirUtil;
 
 import android.content.Context;
+import android.graphics.Color;
 
 
 public class Configure {
@@ -16,6 +17,9 @@ public class Configure {
 	public int mFontSize;
 	public String mFont;
 	public String mPlugin;
+	public int mLineNumberColor;
+	public int mLineHighlightColor;
+	public int mLineHighlightAlpha;
 
 	public Configure(Context context){
 		mSettings=new Settings();
@@ -24,6 +28,10 @@ public class Configure {
 		mHighlightCss="highlight.css";
 		mLanguage="c";
 		mTheme="molokai";
+		
+		mLineHighlightColor=Color.BLACK;
+		mLineNumberColor=Color.GRAY;
+		mLineHighlightAlpha=48;
 		
 	}
 }

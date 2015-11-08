@@ -248,9 +248,9 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		// wordwrap
 		setHorizontallyScrolling(!mConfigure.mSettings.WORDWRAP);
 		// setTextColor(Color.BLACK);
-		mPaintHighlight.setColor(Color.BLACK);
-		mPaintNumbers.setColor(Color.GRAY);
-		mPaintHighlight.setAlpha(48);
+		mPaintHighlight.setColor(mConfigure.mLineHighlightColor);
+		mPaintNumbers.setColor(mConfigure.mLineNumberColor);
+		mPaintHighlight.setAlpha(mConfigure.mLineHighlightAlpha);
 
 		// text size
 		setTextSize(mConfigure.mSettings.TEXT_SIZE);

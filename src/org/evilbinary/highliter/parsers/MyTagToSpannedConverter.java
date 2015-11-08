@@ -290,8 +290,8 @@ public class MyTagToSpannedConverter implements ContentHandler {
 				CSSRule rule = cssrules.item(i);
 				if (rule instanceof CSSStyleRule) {
 					CSSStyleRule cssrule = (CSSStyleRule) rule;
-					System.out.println("cssrule.getCssText:" + cssrule.getCssText());
-					System.out.println("	cssrule.getSelectorText:" + cssrule.getSelectorText());
+//					System.out.println("cssrule.getCssText:" + cssrule.getCssText());
+//					System.out.println("	cssrule.getSelectorText:" + cssrule.getSelectorText());
 					CSSStyleDeclaration styles = cssrule.getStyle();
 
 					SpanStyle spanStyles = new SpanStyle();
@@ -308,9 +308,9 @@ public class MyTagToSpannedConverter implements ContentHandler {
 						} else if ("font-size".equalsIgnoreCase(propName)) {
 							CSSPrimitiveValue val = (CSSPrimitiveValue) styles.getPropertyCSSValue(propName);
 							int sizePx = (int) val.getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
-							System.out.println(" sizePx====:" + sizePx);
+//							System.out.println(" sizePx====:" + sizePx);
 							int sizeDp = PxAndDp.px2dip(this.mContext, sizePx);
-							AbsoluteSizeSpan span = new AbsoluteSizeSpan(sizeDp);
+							AbsoluteSizeSpan span = new AbsoluteSizeSpan(sizeDp,true);
 							spanStyles.addStyle(span, propName, styles);
 						}
 
