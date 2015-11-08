@@ -100,8 +100,8 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 	public void loadFromConfigure(Configure configure) {
 		mConfigure = configure;
 		converter = new MyTagToSpannedConverter(this.getContext());
-		converter.loadCss(mConfigure.mDataPath + "/" + mConfigure.mHighlightCss);
 		maker = new SyntaxHighlight(mConfigure);
+		converter.loadCss(mConfigure.mDataPath + "/" + mConfigure.mHighlightCss);
 		watcher = new CodeTextWatcher(maker, this, converter);
 		this.addTextChangedListener(watcher);
 
