@@ -33,6 +33,7 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.CharacterStyle;
+import android.text.style.ForegroundColorSpan;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -140,11 +141,21 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		if (spanText != null) {
 			SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) this.getText();
 			CharacterStyle[] allSpans = spanText.getSpans(0, spanText.length(), CharacterStyle.class);
-			for (CharacterStyle span : allSpans) {
-				int spanStart = spanText.getSpanStart(span);
-				int spanEnd = spanText.getSpanEnd(span);
-				int flag = spanText.getSpanFlags(span);
-				spannableStringBuilder.setSpan(span, begin + spanStart, begin + spanEnd, flag);
+//			System.out.println("allSpans size:"+allSpans.length);
+
+			if(allSpans.length==0){
+				allSpans = spannableStringBuilder.getSpans(begin, begin+spanText.length(), CharacterStyle.class);
+//				System.out.println("	allSpans size:"+allSpans.length);
+				for (CharacterStyle span : allSpans) {
+					spannableStringBuilder.removeSpan(span);
+				}
+			}else{
+				for (CharacterStyle span : allSpans) {
+					int spanStart = spanText.getSpanStart(span);
+					int spanEnd = spanText.getSpanEnd(span);
+					int flag = spanText.getSpanFlags(span);
+					spannableStringBuilder.setSpan(span, begin + spanStart, begin + spanEnd, flag);
+				}
 			}
 
 		}

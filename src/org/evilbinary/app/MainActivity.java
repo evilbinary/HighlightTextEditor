@@ -58,14 +58,14 @@ public class MainActivity extends Activity {
 		configureManager.exractDefaultConfigure();
 		Configure conf=configureManager.getDefaultConfigure();
 		conf.mTheme="solarized-light";
-		conf.mLanguage="lisp";
+		conf.mLanguage="python";
 		
 		final LinearLayout linearLayout = new LinearLayout(this);
 		HighlightEditText hi = new HighlightEditText(this,conf);
 	
 		try {
 			String text = FileUtil.readFromAssetsFile(this, "test.html");
-			String textcode=FileUtil.readFromAssetsFile(this, "lib.lisp");
+			String textcode=FileUtil.readFromAssetsFile(this, "fib.py");
 			hi.setSource(textcode);
 			//hi.setHtml(text);
 			
