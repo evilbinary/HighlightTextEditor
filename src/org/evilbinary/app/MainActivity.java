@@ -34,6 +34,7 @@ import org.evilbinary.utils.Logger;
 import org.evilbinary.utils.ZipUtil;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 //import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -417,8 +418,11 @@ public class MainActivity extends ActionBarActivity {
 		case R.id.zmrok:mConf.mTheme = "zmrok";break;
 			
 		
-		case R.id.action_help:
-			
+		case R.id.action_about:
+			Dialog dialog1 = new Dialog(this);  
+	        dialog1.setContentView(R.layout.about);  
+	        dialog1.setTitle("关于");  
+	        dialog1.show();  
 			break;
 		default:
 			break;

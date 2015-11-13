@@ -345,8 +345,8 @@
         </menu>
     </item>
     <item
-        android:id="@+id/action_help"
-        android:title="帮助">
+        android:id="@+id/action_about"
+        android:title="关于">
     </item>
 
 </menu>
