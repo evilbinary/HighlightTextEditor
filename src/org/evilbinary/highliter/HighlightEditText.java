@@ -250,7 +250,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 	private void updateSettings() {
 
-		if (isInEditMode()) {
+		if (isInEditMode()||mConfigure==null||mPaintNumbers==null||mPaintHighlight==null) {
 			return;
 		}
 

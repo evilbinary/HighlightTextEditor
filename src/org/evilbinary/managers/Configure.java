@@ -28,7 +28,7 @@ public class Configure {
 		mHighlightCss="highlight.css";
 		mLanguage="c";
 		mTheme="molokai";
-		
+		mFontSize=mSettings.TEXT_SIZE;
 		mLineHighlightColor=Color.BLACK;
 		mLineNumberColor=Color.GRAY;
 		mLineHighlightAlpha=48;

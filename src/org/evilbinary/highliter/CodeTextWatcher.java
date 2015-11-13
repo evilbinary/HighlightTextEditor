@@ -99,10 +99,10 @@ public class CodeTextWatcher implements TextWatcher {
 
 		if (begin >= 0 && begin < end) {
 			CharSequence str = sub.subSequence(begin, end);
-			 System.out.println(begin + " " + end + " str:" + str);
+//			 System.out.println(begin + " " + end + " str:" + str);
 			if (str != null && !str.equals("")) {
 				String result = mHi.pase(str.toString());
-				 System.out.println("@@@@@@@@@@@@@:" + result);
+//				 System.out.println("@@@@@@@@@@@@@:" + result);
 				Spanned spanText = mConverter.convert(result);
 				mText.render(spanText, begin);
 			}

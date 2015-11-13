@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+       android:icon="@drawable/iconfont_yuyan" 
+        android:id="@+id/action_lang"
+        android:title=" 语言选择"
+        app:showAsAction="always|withText">
+        <menu>
+            <group android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/c"
+                    android:title="c/c++"/>
+                <item
+                    android:id="@+id/lisp"
+                    android:title="lisp"/>
+                <item
+                    android:id="@+id/python"
+                    android:title="python"/>
+                
+                
+                <item android:id="@+id/abap4" android:title="abap4"/>
+<item android:id="@+id/abc" android:title="abc"/>
+<item android:id="@+id/abnf" android:title="abnf"/>
+<item android:id="@+id/actionscript" android:title="actionscript"/>
+<item android:id="@+id/ada" android:title="ada"/>
+<item android:id="@+id/agda" android:title="agda"/>
+<item android:id="@+id/algol" android:title="algol"/>
+<item android:id="@+id/ampl" android:title="ampl"/>
+<item android:id="@+id/amtrix" android:title="amtrix"/>
+<item android:id="@+id/applescript" android:title="applescript"/>
+<item android:id="@+id/arc" android:title="arc"/>
+<item android:id="@+id/arm" android:title="arm"/>
+<item android:id="@+id/as400cl" android:title="as400cl"/>
+<item android:id="@+id/ascend" android:title="ascend"/>
+<item android:id="@+id/asp" android:title="asp"/>
+<item android:id="@+id/aspect" android:title="aspect"/>
+<item android:id="@+id/assembler" android:title="assembler"/>
+<item android:id="@+id/ats" android:title="ats"/>
+<item android:id="@+id/autohotkey" android:title="autohotkey"/>
+<item android:id="@+id/autoit" android:title="autoit"/>
+<item android:id="@+id/avenue" android:title="avenue"/>
+<item android:id="@+id/awk" android:title="awk"/>
+<item android:id="@+id/bat" android:title="bat"/>
+<item android:id="@+id/bbcode" android:title="bbcode"/>
+<item android:id="@+id/bcpl" android:title="bcpl"/>
+<item android:id="@+id/bibtex" android:title="bibtex"/>
+<item android:id="@+id/biferno" android:title="biferno"/>
+<item android:id="@+id/bison" android:title="bison"/>
+<item android:id="@+id/blitzbasic" android:title="blitzbasic"/>
+<item android:id="@+id/bms" android:title="bms"/>
+<item android:id="@+id/bnf" android:title="bnf"/>
+<item android:id="@+id/boo" android:title="boo"/>
+<item android:id="@+id/ceylon" android:title="ceylon"/>
+<item android:id="@+id/charmm" android:title="charmm"/>
+<item android:id="@+id/chill" android:title="chill"/>
+<item android:id="@+id/clean" android:title="clean"/>
+<item android:id="@+id/clearbasic" android:title="clearbasic"/>
+<item android:id="@+id/clipper" android:title="clipper"/>
+<item android:id="@+id/clojure" android:title="clojure"/>
+<item android:id="@+id/clp" android:title="clp"/>
+<item android:id="@+id/cobol" android:title="cobol"/>
+<item android:id="@+id/coldfusion" android:title="coldfusion"/>
+<item android:id="@+id/conf" android:title="conf"/>
+<item android:id="@+id/crk" android:title="crk"/>
+<item android:id="@+id/csharp" android:title="csharp"/>
+<item android:id="@+id/css" android:title="css"/>
+<item android:id="@+id/d" android:title="d"/>
+<item android:id="@+id/dart" android:title="dart"/>
+<item android:id="@+id/diff" android:title="diff"/>
+<item android:id="@+id/dylan" android:title="dylan"/>
+<item android:id="@+id/ebnf" android:title="ebnf"/>
+<item android:id="@+id/eiffel" android:title="eiffel"/>
+<item android:id="@+id/erlang" android:title="erlang"/>
+<item android:id="@+id/euphoria" android:title="euphoria"/>
+<item android:id="@+id/express" android:title="express"/>
+<item android:id="@+id/fame" android:title="fame"/>
+<item android:id="@+id/felix" android:title="felix"/>
+<item android:id="@+id/fortran77" android:title="fortran77"/>
+<item android:id="@+id/fortran90" android:title="fortran90"/>
+<item android:id="@+id/frink" android:title="frink"/>
+<item android:id="@+id/fsharp" android:title="fsharp"/>
+<item android:id="@+id/fx" android:title="fx"/>
+<item android:id="@+id/gambas" android:title="gambas"/>
+<item android:id="@+id/gdb" android:title="gdb"/>
+<item android:id="@+id/go" android:title="go"/>
+<item android:id="@+id/graphviz" android:title="graphviz"/>
+<item android:id="@+id/haskell" android:title="haskell"/>
+<item android:id="@+id/haxe" android:title="haxe"/>
+<item android:id="@+id/hcl" android:title="hcl"/>
+<item android:id="@+id/html" android:title="html"/>
+<item android:id="@+id/httpd" android:title="httpd"/>
+<item android:id="@+id/icon" android:title="icon"/>
+<item android:id="@+id/idl" android:title="idl"/>
+<item android:id="@+id/idlang" android:title="idlang"/>
+<item android:id="@+id/inc_luatex" android:title="inc_luatex"/>
+<item android:id="@+id/informix" android:title="informix"/>
+<item android:id="@+id/ini" android:title="ini"/>
+<item android:id="@+id/innosetup" android:title="innosetup"/>
+<item android:id="@+id/interlis" android:title="interlis"/>
+<item android:id="@+id/io" android:title="io"/>
+<item android:id="@+id/jasmin" android:title="jasmin"/>
+<item android:id="@+id/java" android:title="java"/>
+<item android:id="@+id/js" android:title="js"/>
+<item android:id="@+id/jsp" android:title="jsp"/>
+<item android:id="@+id/ldif" android:title="ldif"/>
+<item android:id="@+id/less" android:title="less"/>
+<item android:id="@+id/lhs" android:title="lhs"/>
+<item android:id="@+id/lilypond" android:title="lilypond"/>
+<item android:id="@+id/limbo" android:title="limbo"/>
+<item android:id="@+id/lindenscript" android:title="lindenscript"/>
+<item android:id="@+id/logtalk" android:title="logtalk"/>
+<item android:id="@+id/lotos" android:title="lotos"/>
+<item android:id="@+id/lotus" android:title="lotus"/>
+<item android:id="@+id/lua" android:title="lua"/>
+<item android:id="@+id/luban" android:title="luban"/>
+<item android:id="@+id/make" android:title="make"/>
+<item android:id="@+id/maple" android:title="maple"/>
+<item android:id="@+id/matlab" android:title="matlab"/>
+<item android:id="@+id/maya" android:title="maya"/>
+<item android:id="@+id/mercury" android:title="mercury"/>
+<item android:id="@+id/miranda" android:title="miranda"/>
+<item android:id="@+id/mod2" android:title="mod2"/>
+<item android:id="@+id/mod3" android:title="mod3"/>
+<item android:id="@+id/modelica" android:title="modelica"/>
+<item android:id="@+id/moon" android:title="moon"/>
+<item android:id="@+id/ms" android:title="ms"/>
+<item android:id="@+id/mssql" android:title="mssql"/>
+<item android:id="@+id/mxml" android:title="mxml"/>
+<item android:id="@+id/n3" android:title="n3"/>
+<item android:id="@+id/nasal" android:title="nasal"/>
+<item android:id="@+id/nbc" android:title="nbc"/>
+<item android:id="@+id/nemerle" android:title="nemerle"/>
+<item android:id="@+id/netrexx" android:title="netrexx"/>
+<item android:id="@+id/nice" android:title="nice"/>
+<item android:id="@+id/nsis" android:title="nsis"/>
+<item android:id="@+id/nxc" android:title="nxc"/>
+<item android:id="@+id/oberon" android:title="oberon"/>
+<item android:id="@+id/objc" android:title="objc"/>
+<item android:id="@+id/ocaml" android:title="ocaml"/>
+<item android:id="@+id/octave" android:title="octave"/>
+<item android:id="@+id/oorexx" android:title="oorexx"/>
+<item android:id="@+id/os" android:title="os"/>
+<item android:id="@+id/oz" android:title="oz"/>
+<item android:id="@+id/paradox" android:title="paradox"/>
+<item android:id="@+id/pas" android:title="pas"/>
+<item android:id="@+id/pdf" android:title="pdf"/>
+<item android:id="@+id/perl" android:title="perl"/>
+<item android:id="@+id/php" android:title="php"/>
+<item android:id="@+id/pike" android:title="pike"/>
+<item android:id="@+id/pl1" android:title="pl1"/>
+<item android:id="@+id/plperl" android:title="plperl"/>
+<item android:id="@+id/plpython" android:title="plpython"/>
+<item android:id="@+id/pltcl" android:title="pltcl"/>
+<item android:id="@+id/pov" android:title="pov"/>
+<item android:id="@+id/pro" android:title="pro"/>
+<item android:id="@+id/progress" android:title="progress"/>
+<item android:id="@+id/ps" android:title="ps"/>
+<item android:id="@+id/ps1" android:title="ps1"/>
+<item android:id="@+id/psl" android:title="psl"/>
+<item android:id="@+id/pure" android:title="pure"/>
+<item android:id="@+id/pyrex" android:title="pyrex"/>
+<item android:id="@+id/q" android:title="q"/>
+<item android:id="@+id/qmake" android:title="qmake"/>
+<item android:id="@+id/qml" android:title="qml"/>
+<item android:id="@+id/qu" android:title="qu"/>
+<item android:id="@+id/r" android:title="r"/>
+<item android:id="@+id/rebol" android:title="rebol"/>
+<item android:id="@+id/rexx" android:title="rexx"/>
+<item android:id="@+id/rnc" android:title="rnc"/>
+<item android:id="@+id/rpg" android:title="rpg"/>
+<item android:id="@+id/rpl" android:title="rpl"/>
+<item android:id="@+id/rs" android:title="rs"/>
+<item android:id="@+id/ruby" android:title="ruby"/>
+<item android:id="@+id/s" android:title="s"/>
+<item android:id="@+id/sas" android:title="sas"/>
+<item android:id="@+id/scala" android:title="scala"/>
+<item android:id="@+id/scilab" android:title="scilab"/>
+<item android:id="@+id/scss" android:title="scss"/>
+<item android:id="@+id/sh" android:title="sh"/>
+<item android:id="@+id/small" android:title="small"/>
+<item android:id="@+id/smalltalk" android:title="smalltalk"/>
+<item android:id="@+id/sml" android:title="sml"/>
+<item android:id="@+id/snmp" android:title="snmp"/>
+<item android:id="@+id/snobol" android:title="snobol"/>
+<item android:id="@+id/spec" android:title="spec"/>
+<item android:id="@+id/spn" android:title="spn"/>
+<item android:id="@+id/sql" android:title="sql"/>
+<item android:id="@+id/squirrel" android:title="squirrel"/>
+<item android:id="@+id/styl" android:title="styl"/>
+<item android:id="@+id/swift" android:title="swift"/>
+<item android:id="@+id/sybase" android:title="sybase"/>
+<item android:id="@+id/tcl" android:title="tcl"/>
+<item android:id="@+id/tcsh" android:title="tcsh"/>
+<item android:id="@+id/tex" android:title="tex"/>
+<item android:id="@+id/ts" android:title="ts"/>
+<item android:id="@+id/tsql" android:title="tsql"/>
+<item android:id="@+id/ttcn3" android:title="ttcn3"/>
+<item android:id="@+id/txt" android:title="txt"/>
+<item android:id="@+id/upc" android:title="upc"/>
+<item android:id="@+id/vala" android:title="vala"/>
+<item android:id="@+id/vb" android:title="vb"/>
+<item android:id="@+id/verilog" android:title="verilog"/>
+<item android:id="@+id/vhd" android:title="vhd"/>
+<item android:id="@+id/xml" android:title="xml"/>
+<item android:id="@+id/xpp" android:title="xpp"/>
+<item android:id="@+id/yaiff" android:title="yaiff"/>
+<item android:id="@+id/yang" android:title="yang"/>
+<item android:id="@+id/znn" android:title="znn"/>
+
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_theme"
+        android:title=" 主题选择"
+        android:icon="@drawable/iconfont_theme"
+        app:showAsAction="always|withText">
+        <menu>
+            <group android:checkableBehavior="single" >
+                 <item
+                    android:id="@+id/molokai"
+                    android:title="molokai"/>
+                <item
+                    android:id="@+id/fine_blue"
+                    android:title="fine blue"/>
+                <item
+                    android:id="@+id/vampire"
+                    android:title="vampire"/>
+                <item
+                    android:id="@+id/solarized_light"
+                    android:title="solarized-light"/>
+                
+                
+                <item android:id="@+id/acid" android:title="acid"/>
+<item android:id="@+id/aiseered" android:title="aiseered"/>
+<item android:id="@+id/andes" android:title="andes"/>
+<item android:id="@+id/anotherdark" android:title="anotherdark"/>
+<item android:id="@+id/autumn" android:title="autumn"/>
+<item android:id="@+id/baycomb" android:title="baycomb"/>
+<item android:id="@+id/bclear" android:title="bclear"/>
+<item android:id="@+id/biogoo" android:title="biogoo"/>
+<item android:id="@+id/bipolar" android:title="bipolar"/>
+<item android:id="@+id/blacknblue" android:title="blacknblue"/>
+<item android:id="@+id/bluegreen" android:title="bluegreen"/>
+<item android:id="@+id/breeze" android:title="breeze"/>
+<item android:id="@+id/bright" android:title="bright"/>
+<item android:id="@+id/camo" android:title="camo"/>
+<item android:id="@+id/candy" android:title="candy"/>
+<item android:id="@+id/clarity" android:title="clarity"/>
+<item android:id="@+id/dante" android:title="dante"/>
+<item android:id="@+id/darkblue" android:title="darkblue"/>
+<item android:id="@+id/darkbone" android:title="darkbone"/>
+<item android:id="@+id/darkness" android:title="darkness"/>
+<item android:id="@+id/darkslategray" android:title="darkslategray"/>
+<item android:id="@+id/darkspectrum" android:title="darkspectrum"/>
+<item android:id="@+id/denim" android:title="denim"/>
+<item android:id="@+id/dusk" android:title="dusk"/>
+<item android:id="@+id/earendel" android:title="earendel"/>
+<item android:id="@+id/easter" android:title="easter"/>
+<item android:id="@+id/edit_anjuta" android:title="edit-anjuta"/>
+<item android:id="@+id/edit_eclipse" android:title="edit-eclipse"/>
+<item android:id="@+id/edit_emacs" android:title="edit-emacs"/>
+<item android:id="@+id/edit_flashdevelop" android:title="edit-flashdevelop"/>
+<item android:id="@+id/edit_gedit" android:title="edit-gedit"/>
+<item android:id="@+id/edit_jedit" android:title="edit-jedit"/>
+<item android:id="@+id/edit_kwrite" android:title="edit-kwrite"/>
+<item android:id="@+id/edit_matlab" android:title="edit-matlab"/>
+<item android:id="@+id/edit_msvs2008" android:title="edit-msvs2008"/>
+<item android:id="@+id/edit_nedit" android:title="edit-nedit"/>
+<item android:id="@+id/edit_vim_dark" android:title="edit-vim-dark"/>
+<item android:id="@+id/edit_vim" android:title="edit-vim"/>
+<item android:id="@+id/edit_xcode" android:title="edit-xcode"/>
+<item android:id="@+id/ekvoli" android:title="ekvoli"/>
+<item android:id="@+id/freya" android:title="freya"/>
+<item android:id="@+id/fruit" android:title="fruit"/>
+<item android:id="@+id/golden" android:title="golden"/>
+<item android:id="@+id/greenlcd" android:title="greenlcd"/>
+<item android:id="@+id/kellys" android:title="kellys"/>
+<item android:id="@+id/leo" android:title="leo"/>
+<item android:id="@+id/lucretia" android:title="lucretia"/>
+<item android:id="@+id/manxome" android:title="manxome"/>
+<item android:id="@+id/maroloccio" android:title="maroloccio"/>
+<item android:id="@+id/matrix" android:title="matrix"/>
+<item android:id="@+id/moe" android:title="moe"/>
+<item android:id="@+id/moria" android:title="moria"/>
+<item android:id="@+id/navajo_night" android:title="navajo-night"/>
+<item android:id="@+id/navy" android:title="navy"/>
+<item android:id="@+id/neon" android:title="neon"/>
+<item android:id="@+id/night" android:title="night"/>
+<item android:id="@+id/nightshimmer" android:title="nightshimmer"/>
+<item android:id="@+id/nuvola" android:title="nuvola"/>
+<item android:id="@+id/olive" android:title="olive"/>
+<item android:id="@+id/orion" android:title="orion"/>
+<item android:id="@+id/oxygenated" android:title="oxygenated"/>
+<item android:id="@+id/pablo" android:title="pablo"/>
+<item android:id="@+id/peaksea" android:title="peaksea"/>
+<item android:id="@+id/print" android:title="print"/>
+<item android:id="@+id/rand01" android:title="rand01"/>
+<item android:id="@+id/rdark" android:title="rdark"/>
+<item android:id="@+id/relaxedgreen" android:title="relaxedgreen"/>
+<item android:id="@+id/rootwater" android:title="rootwater"/>
+<item android:id="@+id/seashell" android:title="seashell"/>
+<item android:id="@+id/solarized_dark" android:title="solarized-dark"/>
+<item android:id="@+id/tabula" android:title="tabula"/>
+<item android:id="@+id/tcsoft" android:title="tcsoft"/>
+<item android:id="@+id/the" android:title="the"/>
+<item android:id="@+id/whitengrey" android:title="whitengrey"/>
+<item android:id="@+id/xoria256" android:title="xoria256"/>
+<item android:id="@+id/zellner" android:title="zellner"/>
+<item android:id="@+id/zenburn" android:title="zenburn"/>
+<item android:id="@+id/zmrok" android:title="zmrok"/>
+
+            </group>
+        </menu>
+    </item>
+    <item
+        android:icon="@drawable/iconfont_zitibianji"
+        android:showAsAction="always|withText"
+        android:title="文字大小"
+        app:showAsAction="always|withText">
+        <menu>
+            <group android:checkableBehavior="single" >
+                 <item
+                    android:id="@+id/font_default"
+                    android:title="默认大小"/>
+                 
+                <item
+                    android:id="@+id/font10"
+                    android:title="10"/>
+                <item
+                    android:id="@+id/font12"
+                    android:title="12"/>
+                <item
+                    android:id="@+id/font14"
+                    android:title="14"/>
+                <item
+                    android:id="@+id/font16"
+                    android:title="16"/>
+                <item
+                    android:id="@+id/font18"
+                    android:title="18"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_help"
+        android:title="帮助">
+    </item>
+
+</menu>
