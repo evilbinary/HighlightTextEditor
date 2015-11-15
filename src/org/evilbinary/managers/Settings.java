@@ -32,6 +32,10 @@ public class Settings implements Constants {
 
 	/** Show the lines numbers */
 	public boolean SHOW_LINE_NUMBERS = true;
+	
+	public boolean SHOW_LINE_HIGHLIGHT = true;
+
+	
 	/** automatic break line to fit one page */
 	public boolean WORDWRAP = false;
 	/** color setting */

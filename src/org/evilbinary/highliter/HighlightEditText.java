@@ -30,8 +30,10 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.view.GestureDetector;
@@ -46,9 +48,9 @@ import android.view.inputmethod.InputMethodManager;
 
 public class HighlightEditText extends EditText implements Constants, OnKeyListener, OnGestureListener {
 
-	private MyTagToSpannedConverter converter;
-	private SyntaxHighlight maker;
-	private CodeTextWatcher watcher;
+	private MyTagToSpannedConverter mConverter;
+	private SyntaxHighlight mMaker;
+	private CodeTextWatcher mWatcher;
 
 	/** The line numbers paint */
 	protected Paint mPaintNumbers;
@@ -94,23 +96,27 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 		mLineBounds = new Rect();
 
 		mGestureDetector = new GestureDetector(getContext(), this);
+		mConverter = new MyTagToSpannedConverter(this.getContext());
+
+		mMaker = new SyntaxHighlight(mConfigure);
+		mWatcher = new CodeTextWatcher(mMaker, this, mConverter);
+		this.addTextChangedListener(mWatcher);
 
 		loadFromConfigure(conf);
 	}
 
 	public void loadFromConfigure(Configure configure) {
 		mConfigure = configure;
-		converter = new MyTagToSpannedConverter(this.getContext());
-		maker = new SyntaxHighlight(mConfigure);
-		converter.loadCss(mConfigure.mDataPath + "/" + mConfigure.mHighlightCss);
-		watcher = new CodeTextWatcher(maker, this, converter);
-		this.addTextChangedListener(watcher);
+		mMaker.loadConfigure(mConfigure);
+		mConverter.loadCss(mConfigure.mDataPath + "/" + mConfigure.mHighlightCss);
 
 		updateSettings();
-		if (converter.getForeground() != null)
-			this.setTextColor(converter.getForeground());
-		if (converter.getBackground() != null)
-			this.setBackgroundColor(converter.getBackground());
+		if (mConverter != null) {
+			if (mConverter.getForeground() != null)
+				this.setTextColor(mConverter.getForeground());
+			if (mConverter.getBackground() != null)
+				this.setBackgroundColor(mConverter.getBackground());
+		}
 
 	}
 
@@ -120,7 +126,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 	public void setHtml(String htmlSource) {
 		try {
-			Spanned spanText = converter.convert(htmlSource);
+			Spanned spanText = mConverter.convert(htmlSource);
 			this.setText(spanText);
 
 		} catch (Exception e) {
@@ -131,25 +137,25 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 	public void setSource(String source) {
 		if (source != null && !source.equals("")) {
 			setText(source);
-			String result = maker.pase(source);
-			Spanned spanText = converter.convert(result);
-			render(spanText,0);
+			/*String result = mMaker.pase(source);
+			Spanned spanText = mConverter.convert(result);
+			render(spanText, 0);*/
 		}
 	}
 
-	public void render(Spanned spanText,int begin) {
+	public void render(Spanned spanText, int begin) {
 		if (spanText != null) {
 			SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) this.getText();
 			CharacterStyle[] allSpans = spanText.getSpans(0, spanText.length(), CharacterStyle.class);
-//			System.out.println("allSpans size:"+allSpans.length);
+			// System.out.println("allSpans size:"+allSpans.length);
 
-			if(allSpans.length==0){
-				allSpans = spannableStringBuilder.getSpans(begin, begin+spanText.length(), CharacterStyle.class);
-//				System.out.println("	allSpans size:"+allSpans.length);
+			if (allSpans.length == 0) {
+				allSpans = spannableStringBuilder.getSpans(begin, begin + spanText.length(), CharacterStyle.class);
+				// System.out.println("	allSpans size:"+allSpans.length);
 				for (CharacterStyle span : allSpans) {
 					spannableStringBuilder.removeSpan(span);
 				}
-			}else{
+			} else {
 				for (CharacterStyle span : allSpans) {
 					int spanStart = spanText.getSpanStart(span);
 					int spanEnd = spanText.getSpanEnd(span);
@@ -203,7 +209,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 			if ((mMaxSize != null) && (mMaxSize.x < mLineBounds.right)) {
 				mMaxSize.x = mLineBounds.right;
 			}
-			if ((i == mHighlightedLine) && (!mConfigure.mSettings.WORDWRAP)) {
+			if ((i == mHighlightedLine) && (!mConfigure.mSettings.WORDWRAP) && mConfigure.mSettings.SHOW_LINE_HIGHLIGHT) {
 				canvas.drawRect(mLineBounds, mPaintHighlight);
 			}
 
@@ -250,7 +256,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 	private void updateSettings() {
 
-		if (isInEditMode()||mConfigure==null||mPaintNumbers==null||mPaintHighlight==null) {
+		if (isInEditMode() || mConfigure == null || mPaintNumbers == null || mPaintHighlight == null) {
 			return;
 		}
 
@@ -258,6 +264,9 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 
 		// wordwrap
 		setHorizontallyScrolling(!mConfigure.mSettings.WORDWRAP);
+		if (!mConfigure.mSettings.WORDWRAP)// 卡顿问题
+			setMovementMethod(ScrollingMovementMethod.getInstance());
+
 		// setTextColor(Color.BLACK);
 		mPaintHighlight.setColor(mConfigure.mLineHighlightColor);
 		mPaintNumbers.setColor(mConfigure.mLineNumberColor);

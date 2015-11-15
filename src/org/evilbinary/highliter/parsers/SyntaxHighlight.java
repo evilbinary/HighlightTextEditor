@@ -27,7 +27,9 @@ public class SyntaxHighlight {
 	private String mDelim = ":";
 
 	public SyntaxHighlight(Configure conf) {
-
+		initArgs(conf);
+	}
+	private void initArgs(Configure conf){
 		addArg("-D" + conf.mDataPath);
 		addArg("-d" + conf.mDataPath);
 		if (conf.mLanguage != null && !conf.mLanguage.equals(""))
@@ -46,6 +48,9 @@ public class SyntaxHighlight {
 		if (conf.mEncoding != null && !conf.mEncoding.equals(""))
 			addArg("--encoding=" + conf.mEncoding);
 		init(mArgs);
+	}
+	public void loadConfigure(Configure conf){
+		initArgs(conf);
 	}
 
 	private void addArg(String arg) {
