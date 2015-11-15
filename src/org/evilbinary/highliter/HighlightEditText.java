@@ -137,9 +137,9 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
 	public void setSource(String source) {
 		if (source != null && !source.equals("")) {
 			setText(source);
-			/*String result = mMaker.pase(source);
+			String result = mMaker.pase(source);
 			Spanned spanText = mConverter.convert(result);
-			render(spanText, 0);*/
+			render(spanText, 0);
 		}
 	}
 

@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
 		mConf = mConfigureManager.getDefaultConfigure();
 		mConf.mTheme = "fine_blue";// solarized-light vampire
 		mConf.mLanguage = "lisp";
-		mConf.mSettings.TEXT_SIZE=20;
+//		mConf.mSettings.TEXT_SIZE=20;
 //		mConf.mSettings.SHOW_LINE_NUMBERS = false;
 //		mConf.mSettings.SHOW_LINE_HIGHLIGHT = false;
 //		mConf.mSettings.FLING_TO_SCROLL = false;
