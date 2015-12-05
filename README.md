@@ -77,7 +77,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 	cpp_ref_qtproject_org.lua          keywords_uppercase.lua             token_add_state_ids.lua	
 #截图
 * 代码编辑界面 
-	<br><img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/screenshot.jpg" alt="编辑界面" style="max-width:380px;" width="380px" /><br>
+
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Andes.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Fine-Blue.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Candy.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
@@ -85,6 +85,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Matrix.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Vampire.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Breeze.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
+	
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/pad.jpg" alt="编辑界面" style="max-width:400px;" width="400px" />
 	
 	
