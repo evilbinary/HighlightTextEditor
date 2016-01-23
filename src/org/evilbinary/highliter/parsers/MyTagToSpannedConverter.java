@@ -199,36 +199,36 @@ public class MyTagToSpannedConverter implements ContentHandler {
         }
     }
 
+    private static int lastSpan;
     private static void start(SpannableStringBuilder text, Object mark) {
         int len = text.length();
         //System.out.println("start setSpan:" + len + " text:" + text);
+        lastSpan=len;
         text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
     }
 
     private static void end(SpannableStringBuilder text, Class kind) {
         int len = text.length();
 
-        //Object obj = getLast(text, kind);
-        int where = text.nextSpanTransition(0, len, kind);
+        int where=lastSpan;//= text.nextSpanTransition(0, len, kind);
         Object[] objs = text.getSpans(where, where+1, kind);
         if (objs != null) {
-
             Object obj=null;
             if (objs.length != 0) {
                 obj= objs[objs.length -1];
             }
-
-            //int where = text.getSpanStart(obj);
-            text.removeSpan(obj);
-            // System.out.println(" where:" + where + " len:" + len);
-            if (where != len) {
-                // System.out.println("obj:" + obj);
-                if (kind == SpanStyle.class) {
-                    // System.out.println("kind of spanStyle.class");
-                    SpanStyle spanStyle = (SpanStyle) obj;
-                    spanStyle.applyStyle(text, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                } else {
-                    text.clear();
+            if(obj!=null) {
+                text.removeSpan(obj);
+                // System.out.println(" where:" + where + " len:" + len);
+                if (where != len) {
+                    // System.out.println("obj:" + obj);
+                    if (kind == SpanStyle.class) {
+                        // System.out.println("kind of spanStyle.class");
+                        SpanStyle spanStyle = (SpanStyle) obj;
+                        spanStyle.applyStyle(text, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } else {
+                        text.clear();
+                    }
                 }
             }
         }
