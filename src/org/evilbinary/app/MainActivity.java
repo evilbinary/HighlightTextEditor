@@ -950,8 +950,10 @@ public class MainActivity extends ActionBarActivity {
                 break;
         }
 
-        mHighlightEdit.loadFromConfigure(mConf);
-        mHighlightEdit.setSource(mTextcode);
+        if (!mHighlightEdit.getConfigure().mTheme.equals(mConf.mTheme) && !mHighlightEdit.getConfigure().mLanguage.equals(mConf.mLanguage) && !(mHighlightEdit.getConfigure().mFontSize != mConf.mFontSize)) {
+            mHighlightEdit.loadFromConfigure(mConf);
+            mHighlightEdit.setSource(mTextcode);
+        }
 
         return super.onOptionsItemSelected(item);
     }
