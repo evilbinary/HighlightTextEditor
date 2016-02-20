@@ -1,6 +1,6 @@
 HighlightTextEditor
 
-An android HighlightTextEditor一款语法高亮控件。
+An android HighlightTextEditor一款语法高亮控件。qq群:537960195。
 
 #语法高亮
 HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持200多种语言，近90多种主题配色方案，同时支持lua扩展，以及自定义语言配置。强烈推荐，一款不可多得的开源控件。
@@ -119,8 +119,20 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 * 字体大小样式功能。
 * 表情功能。（待定）
 
+#打赏我
+
+![喜欢就支持一下](https://github.com/evilbinary/myblog/raw/master/data/s.png)
+
 #作者
-evilbinary rootdebug@163.com
+* evilbinary rootdebug@163.com
+* 个人博客 [http://evilbinary.org](http://evilbinary.org)
+
+#项目主页
+* [https://github.com/evilbinary/HighlightTextEditor](https://github.com/evilbinary/HighlightTextEditor)
+
+# License
+
+Copyright 2016 evilbinary
 
 /* Copyright (C) 2015 evilbinary. This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
