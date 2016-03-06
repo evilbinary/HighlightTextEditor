@@ -316,6 +316,7 @@
         </menu>
     </item>
     <item
+        android:id="@+id/action_font"
         android:icon="@drawable/iconfont_zitibianji"
         android:showAsAction="always|withText"
         android:title="文字大小"

@@ -91,12 +91,11 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings || id == R.id.action_lang || id == R.id.action_theme || id == R.id.action_font) {
             return true;
         }
-        if (item.isCheckable()) {
-            item.setChecked(true);
-        }
+
+
         switch (id) {
             case R.id.font10:
                 mConf.mSettings.TEXT_SIZE = 10 * 2;
@@ -950,10 +949,13 @@ public class MainActivity extends ActionBarActivity {
                 break;
         }
 
-        if (!mHighlightEdit.getConfigure().mTheme.equals(mConf.mTheme) && !mHighlightEdit.getConfigure().mLanguage.equals(mConf.mLanguage) && !(mHighlightEdit.getConfigure().mFontSize != mConf.mFontSize)) {
-            mHighlightEdit.loadFromConfigure(mConf);
-            mHighlightEdit.setSource(mTextcode);
+        if (item.isCheckable()) {
+            item.setChecked(true);
         }
+
+        mHighlightEdit.loadFromConfigure(mConf);
+        mHighlightEdit.setSource(mTextcode);
+
 
         return super.onOptionsItemSelected(item);
     }
