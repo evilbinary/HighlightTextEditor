@@ -74,9 +74,9 @@ public class MyTagToSpannedConverter {
 
     public void convert(EditText editText) {
         try {
+
             mSyntaxHighlight.pase(editText.getText().toString());
             List<Token> tokenList = mSyntaxHighlight.getTokenList();
-
             SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) editText.getText();
 
             int start = 0;
@@ -160,7 +160,6 @@ public class MyTagToSpannedConverter {
             }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -178,7 +177,7 @@ public class MyTagToSpannedConverter {
     }
 
     public Integer getBackground() {
-        SpanStyle s = mStyles.get("body.hl");
+        SpanStyle s = mStyles.get("body hl");
         if (s != null) {
             CSSStyleDeclaration style = s.getCssStyle();
             CSSPrimitiveValue val = (CSSPrimitiveValue) style.getPropertyCSSValue("background-color");
@@ -190,7 +189,7 @@ public class MyTagToSpannedConverter {
     }
 
     public Integer getForeground() {
-        SpanStyle s = mStyles.get("pre.hl");
+        SpanStyle s = mStyles.get("pre hl");
         if (s != null) {
             CSSStyleDeclaration style = s.getCssStyle();
             CSSPrimitiveValue val = (CSSPrimitiveValue) style.getPropertyCSSValue("color");
