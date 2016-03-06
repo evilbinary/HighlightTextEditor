@@ -30,7 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "datadir.h"
 #include "codegenerator.h"
 
+
+
+#include "../include/codegenerator.h"
+
 using namespace std;
+using namespace highlight;
+
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
@@ -98,7 +104,7 @@ public:
 
 	int init(string dataDirPath);
 	void destroy();
-	int parse(string content, string &out);
+	int parse(string content, vector<Object> &out);
 
 	/** print version info*/
 	void printVersionInfo();

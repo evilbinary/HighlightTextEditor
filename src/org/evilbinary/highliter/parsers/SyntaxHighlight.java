@@ -18,49 +18,71 @@ package org.evilbinary.highliter.parsers;
 
 import org.evilbinary.managers.Configure;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SyntaxHighlight {
-	static {
-		System.loadLibrary("lua");
-		System.loadLibrary("highlight");
-	}
-	private String mArgs = "hilighlight";
-	private String mDelim = ":";
+    static {
+        System.loadLibrary("lua");
+        System.loadLibrary("highlight");
+    }
 
-	public SyntaxHighlight(Configure conf) {
-		initArgs(conf);
-	}
-	private void initArgs(Configure conf){
-		addArg("-D" + conf.mDataPath);
-		addArg("-d" + conf.mDataPath);
-		if (conf.mLanguage != null && !conf.mLanguage.equals(""))
-			addArg("--syntax=" + conf.mLanguage);
-		addArg("-f");
-		addArg("--print-style");// first gencssfile
-		if (conf.mTheme != null && !conf.mTheme.equals(""))
-			addArg("-s" + conf.mTheme);
-		if (conf.mHighlightCss != null && !conf.mHighlightCss.equals(""))
-			addArg("-c" + conf.mHighlightCss);
-		
-		if (conf.mFont != null && !conf.mFont.equals(""))
-			addArg("--font=" + conf.mFont);
-		if (conf.mFontSize != 0)
-			addArg("--font-size=" + conf.mFontSize);
-		if (conf.mEncoding != null && !conf.mEncoding.equals(""))
-			addArg("--encoding=" + conf.mEncoding);
-		init(mArgs);
-	}
-	public void loadConfigure(Configure conf){
-		initArgs(conf);
-	}
+    private String mArgs = "hilighlight";
+    private String mDelim = ":";
 
-	private void addArg(String arg) {
-		mArgs += mDelim + arg;
-	}
+    private List<Token> tokenList = new ArrayList<Token>(100);
 
-	private native int init(String args);
+    public SyntaxHighlight(Configure conf) {
+        initArgs(conf);
+    }
 
-	public native String pase(String codeBlock);
+    private void initArgs(Configure conf) {
+        addArg("-D" + conf.mDataPath);
+        addArg("-d" + conf.mDataPath);
+        if (conf.mLanguage != null && !conf.mLanguage.equals(""))
+            addArg("--syntax=" + conf.mLanguage);
+        addArg("-f");
+        addArg("--print-style");// first gencssfile
+        if (conf.mTheme != null && !conf.mTheme.equals(""))
+            addArg("-s" + conf.mTheme);
+        if (conf.mHighlightCss != null && !conf.mHighlightCss.equals(""))
+            addArg("-c" + conf.mHighlightCss);
 
-	public native String getTheme(String name);
+        if (conf.mFont != null && !conf.mFont.equals(""))
+            addArg("--font=" + conf.mFont);
+        if (conf.mFontSize != 0)
+            addArg("--font-size=" + conf.mFontSize);
+        if (conf.mEncoding != null && !conf.mEncoding.equals(""))
+            addArg("--encoding=" + conf.mEncoding);
+        addArg("-Oobject");
+        init(mArgs);
+    }
+
+    public void loadConfigure(Configure conf) {
+        initArgs(conf);
+    }
+
+    private void addArg(String arg) {
+        mArgs += mDelim + arg;
+    }
+
+    public void addToken(int state, String string, String style) {
+        //System.out.println("addToken:"+state+" "+string+" "+style );
+        Token token = new Token();
+        token.state = state;
+        token.string = string;
+        token.style = style;
+        tokenList.add(token);
+    }
+
+    public List<Token> getTokenList() {
+        return tokenList;
+    }
+
+    private native int init(String args);
+
+    public native String pase(String codeBlock);
+
+    public native String getTheme(String name);
 
 }

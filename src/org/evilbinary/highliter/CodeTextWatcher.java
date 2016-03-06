@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package org.evilbinary.highliter;
 
 import android.text.Editable;
-import android.text.Spanned;
 import android.text.TextWatcher;
 
 import org.evilbinary.highliter.parsers.MyTagToSpannedConverter;
@@ -86,8 +85,8 @@ public class CodeTextWatcher implements TextWatcher {
             if (str != null && !str.equals("")) {
                 String result = mHi.pase(str.toString());
 //				 System.out.println("@@@@@@@@@@@@@:" + result);
-                Spanned spanText = mConverter.convert(result);
-                mText.render(spanText, begin);
+//                Spanned spanText = mConverter.convert(result);
+//                mText.render(spanText, begin);
             }
         }
     }

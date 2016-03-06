@@ -183,7 +183,9 @@ CmdLineOptions::CmdLineOptions(const int argc, const char *argv[]) :
 		switch (code) {
 		case 'O': {
 			const string tmp = StringTools::change_case(arg);
-			if (tmp == "xhtml")
+			if(tmp=="object")
+				outputType=highlight::OBJECT;
+			else if (tmp == "xhtml")
 				outputType = highlight::XHTML;
 			else if (tmp == "tex")
 				outputType = highlight::TEX;
@@ -609,8 +611,10 @@ void CmdLineOptions::init(const int argc, const char *argv[]) {
 				outputType = highlight::PANGO;
 			else if (tmp == "odt")
 				outputType = highlight::ODTFLAT;
-			else
+			else if (tmp == "html")
 				outputType = highlight::HTML;
+			else if (tmp == "object")
+				outputType=highlight::OBJECT;
 		}
 			break;
 		case 'a':
@@ -954,7 +958,7 @@ bool CmdLineOptions::useFNamesAsAnchors() const {
 }
 
 bool CmdLineOptions::formatSupportsExtStyle() {
-	return outputType == highlight::HTML || outputType == highlight::XHTML
+	return outputType == highlight::OBJECT||outputType == highlight::HTML || outputType == highlight::XHTML
 			|| outputType == highlight::LATEX || outputType == highlight::TEX
 			|| outputType == highlight::SVG;
 }
@@ -976,6 +980,8 @@ bool CmdLineOptions::fragmentOutput() const {
 }
 string CmdLineOptions::getOutFileSuffix() const {
 	switch (outputType) {
+	case highlight::OBJECT:
+		return ".obj";
 	case highlight::XHTML:
 		return ".xhtml";
 	case highlight::RTF:

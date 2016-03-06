@@ -39,7 +39,6 @@ import android.widget.Scroller;
 import org.evilbinary.highliter.parsers.MyTagToSpannedConverter;
 import org.evilbinary.highliter.parsers.SyntaxHighlight;
 import org.evilbinary.managers.Configure;
-import org.evilbinary.utils.Logger;
 
 public class HighlightEditText extends EditText implements Constants, OnKeyListener, OnGestureListener {
 
@@ -108,12 +107,12 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
 
-        mGestureDetector = new GestureDetector(getContext(), this);
-        mConverter = new MyTagToSpannedConverter(this.getContext());
-
         mMaker = new SyntaxHighlight(mConfigure);
+        mGestureDetector = new GestureDetector(getContext(), this);
+        mConverter = new MyTagToSpannedConverter(this.getContext(), mMaker);
+
         mWatcher = new CodeTextWatcher(mMaker, this, mConverter);
-        this.addTextChangedListener(mWatcher);
+        //this.addTextChangedListener(mWatcher);
         this.setOnKeyListener(this);
 
         loadFromConfigure(conf);
@@ -138,46 +137,47 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
         return mConfigure;
     }
 
-    public void setHtml(String htmlSource) {
-        try {
-            Spanned spanText = mConverter.convert(htmlSource);
-            this.setText(spanText);
-
-        } catch (Exception e) {
-            Logger.e(e);
-        }
-    }
 
     public void setSource(String source) {
-        if (source != null && !source.equals("")) {
-            setText(source);
-            String result = mMaker.pase(source);
-            Spanned spanText = mConverter.convert(result);
-            render(spanText, 0);
+        try {
+            if (source != null && !source.equals("")) {
+                setText(source);
+                mConverter.convert(this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void render(Spanned spanText, int begin) {
-        if (spanText != null) {
-            SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) this.getText();
-            CharacterStyle[] allSpans = spanText.getSpans(0, spanText.length(), CharacterStyle.class);
+        try {
+            if (spanText != null) {
+                SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) this.getText();
 
-            //Logger.d("allSpans size:" + allSpans.length);
-            if (allSpans.length == 0) {
-                allSpans = spannableStringBuilder.getSpans(begin, begin + spanText.length(), CharacterStyle.class);
-                for (CharacterStyle span : allSpans) {
-                    spannableStringBuilder.removeSpan(span);
-                }
-            } else {
-                for (CharacterStyle span : allSpans) {
-                    int spanStart = spanText.getSpanStart(span);
-                    int spanEnd = spanText.getSpanEnd(span);
-                    int flag = spanText.getSpanFlags(span);
-                    spannableStringBuilder.setSpan(CharacterStyle.wrap(span), begin + spanStart, begin + spanEnd, flag);
 
+
+                CharacterStyle[] allSpans = spanText.getSpans(0, spanText.length(), CharacterStyle.class);
+
+                //Logger.d("allSpans size:" + allSpans.length);
+                if (allSpans.length == 0) {
+                    allSpans = spannableStringBuilder.getSpans(begin, begin + spanText.length(), CharacterStyle.class);
+                    for (CharacterStyle span : allSpans) {
+                        spannableStringBuilder.removeSpan(span);
+                    }
+                } else {
+                    for (CharacterStyle span : allSpans) {
+                        int spanStart = spanText.getSpanStart(span);
+                        int spanEnd = spanText.getSpanEnd(span);
+                        int flag = spanText.getSpanFlags(span);
+
+                        spannableStringBuilder.setSpan(CharacterStyle.wrap(span), begin + spanStart, begin + spanEnd, flag);
+
+                    }
                 }
+
             }
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
