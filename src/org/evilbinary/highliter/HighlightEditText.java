@@ -114,6 +114,7 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
         mMaker = new SyntaxHighlight(mConfigure);
         mWatcher = new CodeTextWatcher(mMaker, this, mConverter);
         this.addTextChangedListener(mWatcher);
+        this.setOnKeyListener(this);
 
         loadFromConfigure(conf);
     }
@@ -160,11 +161,10 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
         if (spanText != null) {
             SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) this.getText();
             CharacterStyle[] allSpans = spanText.getSpans(0, spanText.length(), CharacterStyle.class);
-            // System.out.println("allSpans size:"+allSpans.length);
 
+            //Logger.d("allSpans size:" + allSpans.length);
             if (allSpans.length == 0) {
                 allSpans = spannableStringBuilder.getSpans(begin, begin + spanText.length(), CharacterStyle.class);
-                // System.out.println("	allSpans size:"+allSpans.length);
                 for (CharacterStyle span : allSpans) {
                     spannableStringBuilder.removeSpan(span);
                 }
@@ -173,7 +173,8 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
                     int spanStart = spanText.getSpanStart(span);
                     int spanEnd = spanText.getSpanEnd(span);
                     int flag = spanText.getSpanFlags(span);
-                    spannableStringBuilder.setSpan(span, begin + spanStart, begin + spanEnd, flag);
+                    spannableStringBuilder.setSpan(CharacterStyle.wrap(span), begin + spanStart, begin + spanEnd, flag);
+
                 }
             }
 
@@ -385,8 +386,8 @@ public class HighlightEditText extends EditText implements Constants, OnKeyListe
     }
 
     @Override
-    public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
-        // TODO Auto-generated method stub
+    public boolean onKey(View v, int keyCode, KeyEvent keyEvent) {
+//        Logger.d("onKey:"+keyEvent.getKeyCode());
         return false;
     }
 

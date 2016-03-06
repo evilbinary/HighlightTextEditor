@@ -44,7 +44,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,6 +53,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.HashMap;
+
+import javax.xml.parsers.SAXParserFactory;
 
 public class MyTagToSpannedConverter implements ContentHandler {
 
@@ -77,17 +78,15 @@ public class MyTagToSpannedConverter implements ContentHandler {
         mContext = context;
         mSp = System.getProperty("line.separator");
         try {
-            mReader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
+            //mReader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");//
+            mReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
             mReader.setFeature(Parser.bogonsEmptyFeature, true);
             mReader.setFeature(Parser.ignorableWhitespaceFeature, true);
-            // mReader =
             // XMLReaderFactory.createXMLReader("hotsax.html.sax.SaxParser");
 
         } catch (SAXException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -99,16 +98,16 @@ public class MyTagToSpannedConverter implements ContentHandler {
 
 
     public Spanned convert(String source) {
+        source = "<body>" + source + "</body>";
         InputSource is = new InputSource(new StringReader(source));
         try {
             mSpannableStringBuilder.clear();
             mReader.setContentHandler(this);
+            //System.out.println("source:" + source);
             mReader.parse(is);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (SAXException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return mSpannableStringBuilder;
@@ -200,24 +199,25 @@ public class MyTagToSpannedConverter implements ContentHandler {
     }
 
     private static int lastSpan;
+
     private static void start(SpannableStringBuilder text, Object mark) {
         int len = text.length();
         //System.out.println("start setSpan:" + len + " text:" + text);
-        lastSpan=len;
+        lastSpan = len;
         text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
     }
 
     private static void end(SpannableStringBuilder text, Class kind) {
         int len = text.length();
 
-        int where=lastSpan;//= text.nextSpanTransition(0, len, kind);
-        Object[] objs = text.getSpans(where, where+1, kind);
+        int where = lastSpan;//= text.nextSpanTransition(0, len, kind);
+        Object[] objs = text.getSpans(where, where + 1, kind);
         if (objs != null) {
-            Object obj=null;
+            Object obj = null;
             if (objs.length != 0) {
-                obj= objs[objs.length -1];
+                obj = objs[objs.length - 1];
             }
-            if(obj!=null) {
+            if (obj != null) {
                 text.removeSpan(obj);
                 // System.out.println(" where:" + where + " len:" + len);
                 if (where != len) {
@@ -238,7 +238,7 @@ public class MyTagToSpannedConverter implements ContentHandler {
 
     private static Object getLast(Spanned text, Class kind) {
         /*
-		 * This knows that the last returned object from getSpans() will be the
+         * This knows that the last returned object from getSpans() will be the
 		 * most recently added.
 		 */
         Object[] objs = text.getSpans(0, text.length(), kind);
@@ -285,7 +285,6 @@ public class MyTagToSpannedConverter implements ContentHandler {
             InputStream is = new FileInputStream(file);
             paseCss(is);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
