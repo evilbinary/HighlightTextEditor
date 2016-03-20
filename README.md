@@ -119,7 +119,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 * 字体大小样式功能。
 * 表情功能。（待定）
 
-#打赏我
+#项目捐赠
 
 ![喜欢就支持一下](https://github.com/evilbinary/myblog/raw/master/data/s.png)
 
