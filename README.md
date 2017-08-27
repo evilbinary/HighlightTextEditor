@@ -2,9 +2,9 @@ HighlightTextEditor
 
 An android HighlightTextEditor一款语法高亮控件。qq群:537960195。
 
-#语法高亮
+# 语法高亮
 HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持200多种语言，近90多种主题配色方案，同时支持lua扩展，以及自定义语言配置。强烈推荐，一款不可多得的开源控件。
-###支持的语言：
+### 支持的语言：
 	abap4.lang        clojure.lang      innosetup.lang    nxc.lang          s.lang
 	abc.lang          clp.lang          interlis.lang     oberon.lang       sas.lang
 	abnf.lang         cobol.lang        io.lang           objc.lang         scala.lang
@@ -44,7 +44,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 	clean.lang        inc_luatex.lang   netrexx.lang      rpl.lang
 	clearbasic.lang   informix.lang     nice.lang         rs.lang
 	clipper.lang      ini.lang          nsis.lang         ruby.lang
-###支持的配色主题：
+### 支持的配色主题：
 	acid.theme              darkspectrum.theme      fruit.theme             pablo.theme
 	aiseered.theme          denim.theme             golden.theme            peaksea.theme
 	andes.theme             dusk.theme              greenlcd.theme          print.theme
@@ -66,7 +66,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 	darkbone.theme          ekvoli.theme            olive.theme             zmrok.theme
 	darkness.theme          fine_blue.theme         orion.theme
 	darkslategray.theme     freya.theme             oxygenated.theme
-###插件支持：
+### 插件支持：
 	asciidoc_html_add_links.lua        cpp_ref_wxwidgets_org.lua          outhtml_curly_brackets_matcher.lua
 	bash_functions.lua                 cpp_syslog.lua                     outhtml_keyword_matcher.lua
 	bash_ref_linuxmanpages_com.lua     cpp_wx.lua                         outhtml_parantheses_matcher.lua
@@ -75,7 +75,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 	cpp_ref_gtk_gnome_org.lua          keywords_capitalize.lua            scala_ref_scala_lang_org.lua
 	cpp_ref_local_includes.lua         keywords_lowercase.lua             theme_invert.lua
 	cpp_ref_qtproject_org.lua          keywords_uppercase.lua             token_add_state_ids.lua	
-#截图
+# 截图
 * 代码编辑界面 
 
 	<img src="https://github.com/evilbinary/HighlightTextEditor/raw/master/data/Andes.jpg" alt="编辑界面" style="max-width:200px;" width="200px" />
@@ -90,7 +90,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 	
 	
 
-#历史记录
+# 历史记录
 * a199ea2 - (HEAD, origin/master, master) 图片宽度修改 (evilbinary)
 * 046d56e - 高亮基本版本完成 (evilbinary)
 * 3bfce62 - 修复0，0位置文字获取不全问题 (evilbinary)
@@ -109,7 +109,7 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 * 95f3a12 - first version (evilbinary)
 
 
-#Todo
+# Todo
 * 代码渲染基本功能。 ［完成］
 * 支持200多种语言。 ［完成］
 * 支持82种配色主题。 ［完成］
@@ -119,15 +119,15 @@ HighlightTextEditor是一个安卓代码语法高亮控件，目前已经支持2
 * 字体大小样式功能。
 * 表情功能。（待定）
 
-#项目捐赠
+# 项目捐赠
 
 ![喜欢就支持一下](https://github.com/evilbinary/myblog/raw/master/data/s.png)
 
-#作者
+# 作者
 * evilbinary rootdebug@163.com
 * 个人博客 [http://evilbinary.org](http://evilbinary.org)
 
-#项目主页
+# 项目主页
 * [https://github.com/evilbinary/HighlightTextEditor](https://github.com/evilbinary/HighlightTextEditor)
 
 # License
